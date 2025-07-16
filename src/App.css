@@ -1,0 +1,114 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(120deg, #d1fae5 0%, #6ee7b7 100%);
+  font-family: system-ui, sans-serif;
+}
+
+.app-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-card {
+  background: #f0fdf4;
+  padding: 2.5rem 3.5rem;
+  border-radius: 2rem;
+  box-shadow: 0 8px 32px rgba(16, 185, 129, 0.12);
+  text-align: center;
+  max-width: 480px;
+}
+
+.logo {
+  margin-bottom: 2rem;
+}
+
+.heading {
+  margin: 0 0 1.5rem 0;
+  color: #047857;
+  font-weight: 700;
+  font-size: 3rem;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  color: #065f46;
+  margin-bottom: 2.8rem;
+  font-size: 1.7rem;
+  line-height: 1.7;
+}
+
+.cta-btn {
+  display: inline-block;
+  padding: 1.2rem 3rem;
+  background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
+  color: #fff;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.5rem;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.13);
+  transition: background 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.product-section {
+  margin-top: 2.5rem;
+  background: #f0fdf4;
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.10);
+  padding: 2rem 2.5rem;
+  max-width: 600px;
+  width: 100%;
+  text-align: left;
+}
+
+.product-section-title {
+  color: #047857;
+  font-size: 2rem;
+  margin-bottom: 1.2rem;
+  text-align: center;
+}
+
+.product-group-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #10b981;
+}
+
+.product-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: #065f46;
+  font-size: 1.15rem;
+  line-height: 1.7;
+}
+
+.product-list li {
+  margin-bottom: 0.3rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  border-radius: 0.5rem;
+  padding: 0.2rem 0.5rem;
+}
+
+.product-list li.selected {
+  background: #a7f3d0;
+  color: #047857;
+  font-weight: bold;
+}
+
+.product-description {
+  margin-top: 1.5rem;
+  background: #d1fae5;
+  border-radius: 1rem;
+  padding: 1.2rem 1.5rem;
+  font-size: 1.2rem;
+  color: #065f46;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.07);
+}
