@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import '../styles/form.css';
+import '../styles/card.css';
 
 const loginStyle = {
   display: 'flex',
@@ -41,9 +43,11 @@ function Login({ onLogin }) {
     password: '',
     role: 'worker'
   });
+  const [error, setError] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setError('');
     // Mock authentication - in real app, this would validate against backend
     const mockUsers = {
       'worker': { username: 'worker', password: 'worker123', role: 'worker' },
@@ -55,7 +59,7 @@ function Login({ onLogin }) {
     if (user && credentials.username === user.username && credentials.password === user.password) {
       onLogin(user);
     } else {
-      alert('Invalid credentials. Try:\nWorker: worker/worker123\nSupervisor: supervisor/super123\nAdmin: admin/admin123');
+      setError('Invalid credentials. Try: Worker: worker/worker123, Supervisor: supervisor/super123, Admin: admin/admin123');
     }
   };
 
@@ -73,18 +77,19 @@ function Login({ onLogin }) {
         <h1 style={{ textAlign: 'center', color: 'var(--color-primary)', marginBottom: '2rem', fontSize: '2rem' }}>
           🦺 Safety App Login
         </h1>
-        
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} role="form" aria-label="Login form">
           <div style={{ marginBottom: '1rem' }}>
-            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '1.1rem' }}>
+            <label htmlFor="role" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '1.1rem' }}>
               Role:
             </label>
             <select
+              id="role"
               name="role"
               value={credentials.role}
               onChange={handleChange}
               style={selectStyle}
               required
+              aria-label="Select your role"
             >
               <option value="worker">Worker</option>
               <option value="supervisor">Supervisor</option>
@@ -93,10 +98,11 @@ function Login({ onLogin }) {
           </div>
 
           <div style={{ marginBottom: '1rem' }}>
-            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '1.1rem' }}>
+            <label htmlFor="username" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '1.1rem' }}>
               Username:
             </label>
             <input
+              id="username"
               type="text"
               name="username"
               value={credentials.username}
@@ -104,14 +110,16 @@ function Login({ onLogin }) {
               placeholder="Enter username"
               style={inputStyle}
               required
+              aria-label="Username"
             />
           </div>
 
           <div style={{ marginBottom: '2rem' }}>
-            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '1.1rem' }}>
+            <label htmlFor="password" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '1.1rem' }}>
               Password:
             </label>
             <input
+              id="password"
               type="password"
               name="password"
               value={credentials.password}
@@ -119,6 +127,7 @@ function Login({ onLogin }) {
               placeholder="Enter password"
               style={inputStyle}
               required
+              aria-label="Password"
             />
           </div>
 
@@ -126,11 +135,16 @@ function Login({ onLogin }) {
             type="submit"
             className="cta-btn"
             style={{ width: '100%', fontSize: '1.2rem', padding: '1rem' }}
+            aria-label="Login"
           >
             Login
           </button>
+          {error && (
+            <div role="alert" aria-live="assertive" style={{ color: 'var(--color-danger)', marginTop: '1rem', fontWeight: 600 }}>
+              {error}
+            </div>
+          )}
         </form>
-
         <div style={{ marginTop: '2rem', padding: '1rem', background: 'var(--color-bg)', borderRadius: '0.7rem', fontSize: '0.9rem' }}>
           <strong>Demo Credentials:</strong><br/>
           <strong>Worker:</strong> worker / worker123<br/>

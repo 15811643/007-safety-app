@@ -1,5 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import '../styles/nav.css';
+import '../styles/card.css';
+import '../styles/form.css';
+import '../styles/badge.css';
+
+// Sample rolling 12-month safety data
+const safetyData = [
+  { month: '2024-01', hoursWorked: 10000, LTIs: 0, recordables: 1, daysLost: 0, DART: 0, nearMisses: 2, findings: 1, meetings: 2, trained: 20, employees: 25 },
+  { month: '2024-02', hoursWorked: 9500, LTIs: 1, recordables: 2, daysLost: 3, DART: 1, nearMisses: 1, findings: 2, meetings: 1, trained: 22, employees: 25 },
+  { month: '2024-03', hoursWorked: 11000, LTIs: 0, recordables: 0, daysLost: 0, DART: 0, nearMisses: 3, findings: 0, meetings: 2, trained: 24, employees: 25 },
+  { month: '2024-04', hoursWorked: 10500, LTIs: 0, recordables: 1, daysLost: 0, DART: 0, nearMisses: 2, findings: 1, meetings: 2, trained: 23, employees: 25 },
+  { month: '2024-05', hoursWorked: 9800, LTIs: 0, recordables: 0, daysLost: 0, DART: 0, nearMisses: 2, findings: 1, meetings: 2, trained: 25, employees: 25 },
+  { month: '2024-06', hoursWorked: 12000, LTIs: 1, recordables: 2, daysLost: 5, DART: 1, nearMisses: 1, findings: 2, meetings: 1, trained: 20, employees: 25 },
+  { month: '2024-07', hoursWorked: 11500, LTIs: 0, recordables: 1, daysLost: 0, DART: 0, nearMisses: 2, findings: 1, meetings: 2, trained: 22, employees: 25 },
+  { month: '2024-08', hoursWorked: 10000, LTIs: 0, recordables: 0, daysLost: 0, DART: 0, nearMisses: 3, findings: 0, meetings: 2, trained: 24, employees: 25 },
+  { month: '2024-09', hoursWorked: 10500, LTIs: 0, recordables: 1, daysLost: 0, DART: 0, nearMisses: 2, findings: 1, meetings: 2, trained: 23, employees: 25 },
+  { month: '2024-10', hoursWorked: 9800, LTIs: 0, recordables: 0, daysLost: 0, DART: 0, nearMisses: 2, findings: 1, meetings: 2, trained: 25, employees: 25 },
+  { month: '2024-11', hoursWorked: 12000, LTIs: 1, recordables: 2, daysLost: 5, DART: 1, nearMisses: 1, findings: 2, meetings: 1, trained: 20, employees: 25 },
+  { month: '2024-12', hoursWorked: 11500, LTIs: 0, recordables: 1, daysLost: 0, DART: 0, nearMisses: 2, findings: 1, meetings: 2, trained: 22, employees: 25 },
+];
+
+function rollingSum(data, key) {
+  return data.reduce((sum, d) => sum + (d[key] || 0), 0);
+}
+function rollingRate(numerator, denominator, multiplier) {
+  return denominator > 0 ? (numerator * multiplier) / denominator : 0;
+}
 
 const kpiCard = {
   background: 'var(--color-bg-card)',
@@ -33,10 +60,12 @@ const sectionTitle = {
 };
 
 const grid = {
-  display: 'flex',
-  flexWrap: 'wrap',
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
   gap: '1.5rem',
-  justifyContent: 'center',
+  justifyItems: 'center',
+  alignItems: 'stretch',
+  width: '100%',
 };
 
 const roleBadge = {
@@ -59,45 +88,29 @@ function Dashboard({ user }) {
     return () => clearInterval(timer);
   }, []);
 
-  // Mock KPI data - different levels based on role
-  const getKpis = () => {
-    const baseKpis = [
-      { label: 'Total Incidents', value: 12, type: 'lagging' },
-      { label: 'Hours Worked', value: 2840, type: 'leading' },
-      { label: 'Near Misses', value: 8, type: 'leading' },
-      { label: 'Safety Observations', value: 45, type: 'leading' },
-    ];
+  // Rolling totals for the last 12 months
+  const rollingHours = rollingSum(safetyData, 'hoursWorked');
+  const rollingLTIs = rollingSum(safetyData, 'LTIs');
+  const rollingRecordables = rollingSum(safetyData, 'recordables');
+  const rollingDaysLost = rollingSum(safetyData, 'daysLost');
+  const rollingDART = rollingSum(safetyData, 'DART');
+  const rollingNearMisses = rollingSum(safetyData, 'nearMisses');
+  const rollingFindings = rollingSum(safetyData, 'findings');
+  const rollingMeetings = rollingSum(safetyData, 'meetings');
+  const rollingTrained = safetyData.slice(-3).reduce((sum, d) => sum + (d.trained || 0), 0); // last 3 months
+  const rollingEmployees = safetyData[safetyData.length - 1]?.employees || 1;
 
-    if (currentUser.role === 'worker') {
-      return [
-        ...baseKpis,
-        { label: 'My Training Completions', value: 5, type: 'leading' },
-        { label: 'My Safety Observations', value: 12, type: 'leading' },
-      ];
-    } else if (currentUser.role === 'supervisor') {
-      return [
-        ...baseKpis,
-        { label: 'Team Training Completions', value: 23, type: 'leading' },
-        { label: 'Equipment Inspections', value: 67, type: 'leading' },
-        { label: 'Safety Meetings', value: 15, type: 'leading' },
-        { label: 'Team Performance Score', value: 87, type: 'leading' },
-      ];
-    } else if (currentUser.role === 'safety_admin') {
-      return [
-        ...baseKpis,
-        { label: 'Training Completions', value: 23, type: 'leading' },
-        { label: 'Equipment Inspections', value: 67, type: 'leading' },
-        { label: 'Safety Meetings', value: 15, type: 'leading' },
-        { label: 'Compliance Rate', value: 94, type: 'leading' },
-        { label: 'Safety Score', value: 87, type: 'lagging' },
-        { label: 'Days Since Last Incident', value: 23, type: 'lagging' },
-      ];
-    }
+  // Lagging KPIs
+  const LTIFR = rollingRate(rollingLTIs, rollingHours, 1_000_000);
+  const TRIR = rollingRate(rollingRecordables, rollingHours, 200_000);
+  const SeverityRate = rollingRate(rollingDaysLost, rollingHours, 1_000_000);
+  const DART_Rate = rollingRate(rollingDART, rollingHours, 200_000);
 
-    return baseKpis;
-  };
-
-  const kpis = getKpis();
+  // Leading KPIs
+  const NearMissRate = rollingRate(rollingNearMisses, rollingHours, 200_000);
+  const TrainingCompletion = rollingEmployees > 0 ? (rollingTrained / (rollingEmployees * 3)) * 100 : 0; // % trained in last 3 months
+  const AuditFindingsRate = rollingRate(rollingFindings, rollingHours, 200_000);
+  const MeetingFrequency = rollingMeetings / 12; // average per month
 
   const getRoleBadgeStyle = () => {
     switch (currentUser.role) {
@@ -126,15 +139,15 @@ function Dashboard({ user }) {
   };
 
   return (
-    <div className="page">
-      <div className="card">
+    <div className="page" role="main" aria-label="Safety Dashboard main content">
+      <div className="card dashboard-card">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
           <div>
             <h1 className="heading">🦺 Safety Dashboard</h1>
             <p style={{ color: 'var(--color-text)', opacity: 0.8, margin: 0, fontSize: '1.3rem' }}>
               Welcome back, {currentUser.username}! Real-time safety performance monitoring
             </p>
-            <div style={getRoleBadgeStyle()}>
+            <div style={getRoleBadgeStyle()} aria-label={`Current role: ${getRoleDisplayName()}`}>
               {getRoleDisplayName()}
             </div>
           </div>
@@ -148,25 +161,21 @@ function Dashboard({ user }) {
           </div>
         </div>
         
-        <div style={sectionTitle}>📈 Leading Indicators</div>
-        <div style={grid}>
-          {kpis.filter(k => k.type === 'leading').map(kpi => (
-            <div key={kpi.label} style={kpiCard}>
-              <div style={kpiLabel}>{kpi.label}</div>
-              <div style={kpiValue}>{kpi.value.toLocaleString()}</div>
-            </div>
-          ))}
-        </div>
+        <h2 style={sectionTitle} id="leading-indicators">📈 Leading Indicators</h2>
+        <ul className="kpi-grid" style={{ ...grid, listStyle: 'none', padding: 0 }} aria-labelledby="leading-indicators">
+          <li className="kpi-card" style={kpiCard}>Near Miss Rate: {NearMissRate.toFixed(2)}</li>
+          <li className="kpi-card" style={kpiCard}>Training Completion: {TrainingCompletion.toFixed(1)}%</li>
+          <li className="kpi-card" style={kpiCard}>Audit Findings Rate: {AuditFindingsRate.toFixed(2)}</li>
+          <li className="kpi-card" style={kpiCard}>Meeting Frequency: {MeetingFrequency.toFixed(2)} / month</li>
+        </ul>
         
-        <div style={sectionTitle}>📊 Lagging Indicators</div>
-        <div style={grid}>
-          {kpis.filter(k => k.type === 'lagging').map(kpi => (
-            <div key={kpi.label} style={kpiCard}>
-              <div style={kpiLabel}>{kpi.label}</div>
-              <div style={kpiValue}>{kpi.value}</div>
-            </div>
-          ))}
-        </div>
+        <h2 style={sectionTitle} id="lagging-indicators">📊 Lagging Indicators</h2>
+        <ul className="kpi-grid" style={{ ...grid, listStyle: 'none', padding: 0 }} aria-labelledby="lagging-indicators">
+          <li className="kpi-card" style={kpiCard}>LTIFR: {LTIFR.toFixed(2)}</li>
+          <li className="kpi-card" style={kpiCard}>TRIR: {TRIR.toFixed(2)}</li>
+          <li className="kpi-card" style={kpiCard}>Severity Rate: {SeverityRate.toFixed(2)}</li>
+          <li className="kpi-card" style={kpiCard}>DART Rate: {DART_Rate.toFixed(2)}</li>
+        </ul>
 
         {currentUser.role === 'safety_admin' && (
           <div style={{ marginTop: '2rem', padding: '1.5rem', background: 'var(--color-bg)', borderRadius: '1rem', border: '1px solid var(--color-border)' }}>
@@ -182,7 +191,9 @@ function Dashboard({ user }) {
               borderRadius: '0.7rem',
               textDecoration: 'none',
               fontSize: '1.1rem'
-            }}>
+            }}
+            aria-label="Go to Safety Admin Panel"
+            >
               Go to Safety Admin Panel
             </a>
           </div>
