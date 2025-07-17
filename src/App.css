@@ -284,3 +284,158 @@ body {
     text-align: center;
   }
 }
+
+/* Settings Modal Styles */
+.settings-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.settings-modal {
+  background: #f0fdf4;
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 32px rgba(16, 185, 129, 0.18);
+  padding: 2.5rem 2.5rem 2rem 2.5rem;
+  min-width: 340px;
+  max-width: 95vw;
+  width: 400px;
+  position: relative;
+  animation: modalIn 0.3s;
+}
+
+@keyframes modalIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.settings-header h2 {
+  color: #047857;
+  font-size: 2rem;
+  margin: 0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #047857;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.close-btn:hover {
+  color: #dc2626;
+}
+
+.settings-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.settings-section h3 {
+  color: #10b981;
+  margin-bottom: 0.7rem;
+  font-size: 1.2rem;
+}
+
+.add-contact {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.contact-input {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #a7f3d0;
+  font-size: 1rem;
+  outline: none;
+}
+
+.add-btn {
+  background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.add-btn:hover {
+  background: linear-gradient(90deg, #059669 0%, #10b981 100%);
+}
+
+.contacts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.contact-item-settings {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #d1fae5;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  color: #dc2626;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  transition: color 0.2s;
+}
+.remove-btn:hover {
+  color: #b91c1c;
+}
+
+.setting-item {
+  margin-bottom: 0.7rem;
+  font-size: 1rem;
+  color: #065f46;
+}
+
+.setting-item label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+/* Settings Button */
+.settings-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #10b981;
+  cursor: pointer;
+  margin-left: 1rem;
+  transition: color 0.2s;
+}
+.settings-btn:hover {
+  color: #047857;
+}
+
+@media (max-width: 600px) {
+  .settings-modal {
+    min-width: 90vw;
+    padding: 1.2rem 0.5rem 1rem 0.5rem;
+  }
+}
