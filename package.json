@@ -49,6 +49,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^30.0.4",
     "prettier": "^3.6.2",
-    "vite": "^5.0.8"
+    "vite": "^5.0.8",
+    "terser": "^5.28.1"
   }
 }
