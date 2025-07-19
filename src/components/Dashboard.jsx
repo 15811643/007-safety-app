@@ -88,17 +88,27 @@ function Dashboard({ user }) {
     return () => clearInterval(timer);
   }, []);
 
+  const [editMonth, setEditMonth] = useState(safetyData[safetyData.length - 1].month);
+  const [editData, setEditData] = useState({ ...safetyData.find(d => d.month === editMonth) });
+  const [data, setData] = useState([...safetyData]);
+
+  // Update editData when editMonth changes
+  useEffect(() => {
+    const found = data.find(d => d.month === editMonth);
+    setEditData(found ? { ...found } : {});
+  }, [editMonth, data]);
+
   // Rolling totals for the last 12 months
-  const rollingHours = rollingSum(safetyData, 'hoursWorked');
-  const rollingLTIs = rollingSum(safetyData, 'LTIs');
-  const rollingRecordables = rollingSum(safetyData, 'recordables');
-  const rollingDaysLost = rollingSum(safetyData, 'daysLost');
-  const rollingDART = rollingSum(safetyData, 'DART');
-  const rollingNearMisses = rollingSum(safetyData, 'nearMisses');
-  const rollingFindings = rollingSum(safetyData, 'findings');
-  const rollingMeetings = rollingSum(safetyData, 'meetings');
-  const rollingTrained = safetyData.slice(-3).reduce((sum, d) => sum + (d.trained || 0), 0); // last 3 months
-  const rollingEmployees = safetyData[safetyData.length - 1]?.employees || 1;
+  const rollingHours = rollingSum(data, 'hoursWorked');
+  const rollingLTIs = rollingSum(data, 'LTIs');
+  const rollingRecordables = rollingSum(data, 'recordables');
+  const rollingDaysLost = rollingSum(data, 'daysLost');
+  const rollingDART = rollingSum(data, 'DART');
+  const rollingNearMisses = rollingSum(data, 'nearMisses');
+  const rollingFindings = rollingSum(data, 'findings');
+  const rollingMeetings = rollingSum(data, 'meetings');
+  const rollingTrained = data.slice(-3).reduce((sum, d) => sum + (d.trained || 0), 0); // last 3 months
+  const rollingEmployees = data[data.length - 1]?.employees || 1;
 
   // Lagging KPIs
   const LTIFR = rollingRate(rollingLTIs, rollingHours, 1_000_000);
@@ -136,6 +146,17 @@ function Dashboard({ user }) {
       default:
         return 'User';
     }
+  };
+
+  // Handle form changes
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditData(prev => ({ ...prev, [name]: isNaN(Number(value)) ? value : Number(value) }));
+  };
+
+  const handleEditSubmit = (e) => {
+    e.preventDefault();
+    setData(prev => prev.map(d => d.month === editMonth ? { ...editData, month: editMonth } : d));
   };
 
   return (
@@ -176,6 +197,39 @@ function Dashboard({ user }) {
           <li className="kpi-card" style={kpiCard}>Severity Rate: {SeverityRate.toFixed(2)}</li>
           <li className="kpi-card" style={kpiCard}>DART Rate: {DART_Rate.toFixed(2)}</li>
         </ul>
+
+        {/* Admin Data Edit Form */}
+        {user.role === 'safety_admin' ? (
+          <div style={{ marginTop: '2.5rem', padding: '2rem', background: 'var(--color-bg)', borderRadius: '1rem', border: '1px solid var(--color-border)' }}>
+            <h2 style={{ color: 'var(--color-primary)' }}>Edit Safety Data (Admin Only)</h2>
+            <form onSubmit={handleEditSubmit} style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem', alignItems: 'flex-end' }}>
+              <div>
+                <label htmlFor="editMonth">Month:</label><br />
+                <select id="editMonth" name="editMonth" value={editMonth} onChange={e => setEditMonth(e.target.value)}>
+                  {data.map(d => (
+                    <option key={d.month} value={d.month}>{d.month}</option>
+                  ))}
+                </select>
+              </div>
+              {['hoursWorked','LTIs','recordables','daysLost','DART','nearMisses','findings','meetings','trained','employees'].map(field => (
+                <div key={field}>
+                  <label htmlFor={field}>{field.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())}:</label><br />
+                  <input
+                    id={field}
+                    name={field}
+                    type="number"
+                    value={editData[field] ?? ''}
+                    onChange={handleEditChange}
+                    min="0"
+                    style={{ width: '100px' }}
+                    required
+                  />
+                </div>
+              ))}
+              <button type="submit" className="cta-btn" style={{ height: '40px' }}>Save</button>
+            </form>
+          </div>
+        ) : null}
 
         {currentUser.role === 'safety_admin' && (
           <div style={{ marginTop: '2rem', padding: '1.5rem', background: 'var(--color-bg)', borderRadius: '1rem', border: '1px solid var(--color-border)' }}>

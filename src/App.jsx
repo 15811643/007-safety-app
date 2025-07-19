@@ -11,6 +11,7 @@ import EmergencyResponse from './components/EmergencyResponse';
 import TeamDashboard from './components/TeamDashboard';
 import Settings from './components/Settings';
 import SafetyAdmin from './components/SafetyAdmin';
+import WorkerProfile from './components/WorkerProfile';
 
 function ThemeToggle({ theme, setTheme }) {
   return (
@@ -86,6 +87,7 @@ function App() {
         <NavLink to="/team" requiredRole="supervisor">Team Dashboard</NavLink>
         <NavLink to="/admin" requiredRole="safety_admin">Safety Admin</NavLink>
         <NavLink to="/settings">Settings</NavLink>
+        <NavLink to="/profile">My Profile</NavLink>
         <ThemeToggle theme={theme} setTheme={setTheme} />
         <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <span style={{ fontSize: '0.9rem', color: 'var(--color-nav-link)', opacity: 0.8 }}>
@@ -133,6 +135,7 @@ function App() {
             </div>
           } />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/profile" element={<WorkerProfile />} />
         </Routes>
       </div>
     </Router>
