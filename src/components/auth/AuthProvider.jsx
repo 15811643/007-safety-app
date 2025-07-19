@@ -18,14 +18,29 @@ export const AuthProvider = ({ children }) => {
   // Mock authentication for demo purposes
   // In production, replace with Auth0 or your preferred auth provider
   useEffect(() => {
-    // Check if user is logged in (localStorage for demo)
-    const savedUser = localStorage.getItem('safetyAppUser');
-    if (savedUser) {
-      const userData = JSON.parse(savedUser);
-      setUser(userData);
-      setUserRole(userData.role || 'user');
-    } else {
-      // Auto-login for demo purposes - remove this in production
+    try {
+      // Check if user is logged in (localStorage for demo)
+      const savedUser = localStorage.getItem('safetyAppUser');
+      if (savedUser) {
+        const userData = JSON.parse(savedUser);
+        setUser(userData);
+        setUserRole(userData.role || 'user');
+      } else {
+        // Auto-login for demo purposes - remove this in production
+        const demoUser = {
+          id: '1',
+          email: 'demo@safetyapp.com',
+          name: 'Demo User',
+          role: 'safety_admin',
+          avatar: 'https://ui-avatars.com/api/?name=Demo+User&background=random'
+        };
+        setUser(demoUser);
+        setUserRole(demoUser.role);
+        localStorage.setItem('safetyAppUser', JSON.stringify(demoUser));
+      }
+    } catch (error) {
+      console.error('Auth initialization error:', error);
+      // Fallback to demo user if there's an error
       const demoUser = {
         id: '1',
         email: 'demo@safetyapp.com',

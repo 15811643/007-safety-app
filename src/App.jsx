@@ -85,8 +85,18 @@ function AppContent() {
   // Show loading while auth is initializing
   if (loading) {
     return (
-      <div className="app-root" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <div>Loading...</div>
+      <div className="app-root" style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: '100vh',
+        fontSize: '1.2rem',
+        color: 'var(--color-text)'
+      }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>🦺</div>
+          <div>Loading Safety App...</div>
+        </div>
       </div>
     );
   }
@@ -180,9 +190,11 @@ function AppContent() {
 
 function App() {
   return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
+    <div style={{ minHeight: '100vh', backgroundColor: 'var(--color-background)', color: 'var(--color-text)' }}>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </div>
   );
 }
 
