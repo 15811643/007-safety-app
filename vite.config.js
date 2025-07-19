@@ -12,11 +12,15 @@ export default defineConfig({
       }
     },
     target: 'es2015',
-    minify: 'terser',
-    sourcemap: false
+    minify: false,
+    sourcemap: false,
+    commonjsOptions: {
+      include: []
+    }
   },
   optimizeDeps: {
-    include: ['react', 'react-dom']
+    include: ['react', 'react-dom'],
+    exclude: ['@rollup/rollup-linux-x64-gnu']
   },
   server: {
     port: 3000,
