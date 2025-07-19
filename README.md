@@ -17,7 +17,8 @@ A comprehensive safety management application built with React and Vite.
 ✅ **Vite config**: Optimized for Vercel deployment  
 ✅ **Rollup issues**: Resolved with Vite 4.5.0  
 ✅ **Auto-login**: Implemented for demo access  
-🔄 **Deployment trigger**: 2024-12-19 16:30:00 UTC
+🔄 **Deployment trigger**: 2024-12-19 18:20:00 UTC  
+🔄 **Build command**: `npm install --omit=optional && npm run build`
 
 ## Quick Start
 
@@ -37,6 +38,7 @@ Visit: https://web-based-safety-app-tartan1000.vercel.app
 - Added auto-login for immediate access to all features
 - Implemented comprehensive safety management modules
 - Added real-time monitoring and emergency response features
+- Updated build command to exclude optional dependencies
 
 ---
 *Last updated: $(Get-Date)* 
