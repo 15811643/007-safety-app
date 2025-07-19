@@ -11,8 +11,8 @@ export default defineConfig({
         manualChunks: undefined
       }
     },
-    target: 'es2020',
-    minify: 'terser',
+    target: 'es2015',
+    minify: false,
     sourcemap: false,
     commonjsOptions: {
       include: [/node_modules/],
@@ -21,7 +21,7 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ['react', 'react-dom'],
-    exclude: ['@rollup/rollup-linux-x64-gnu']
+    exclude: ['@rollup/rollup-linux-x64-gnu', '@rollup/rollup-win32-x64-msvc']
   },
   resolve: {
     alias: {
