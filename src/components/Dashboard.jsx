@@ -5,6 +5,16 @@ import '../styles/card.css';
 import '../styles/form.css';
 import '../styles/badge.css';
 
+// Import new safety components
+import { SafetyDashboard as SafetyDashboardComponent } from './safety/SafetyComponents';
+import { 
+  IncidentTrendChart, 
+  SafetyScoreChart, 
+  IncidentTypeChart, 
+  SafetyMetricsSummary 
+} from './safety/SafetyCharts';
+import { useAuth } from './auth/AuthProvider';
+
 // Sample rolling 12-month safety data
 const safetyData = [
   { month: '2024-01', hoursWorked: 10000, LTIs: 0, recordables: 1, daysLost: 0, DART: 0, nearMisses: 2, findings: 1, meetings: 2, trained: 20, employees: 25 },
@@ -79,9 +89,44 @@ const roleBadge = {
 
 function Dashboard({ user }) {
   const [currentTime, setCurrentTime] = useState(new Date());
+  const { user: authUser } = useAuth();
   
   // Default user if not provided
-  const currentUser = user || { role: 'worker', username: 'Worker' };
+  const currentUser = user || authUser || { role: 'worker', username: 'Worker' };
+
+  // Sample data for charts
+  const incidentTrendData = [
+    { month: 'Jan', incidents: 3, nearMisses: 5 },
+    { month: 'Feb', incidents: 2, nearMisses: 3 },
+    { month: 'Mar', incidents: 1, nearMisses: 4 },
+    { month: 'Apr', incidents: 4, nearMisses: 2 },
+    { month: 'May', incidents: 2, nearMisses: 6 },
+    { month: 'Jun', incidents: 1, nearMisses: 3 }
+  ];
+
+  const safetyScoreData = [
+    { month: 'Jan', safetyScore: 85 },
+    { month: 'Feb', safetyScore: 88 },
+    { month: 'Mar', safetyScore: 92 },
+    { month: 'Apr', safetyScore: 89 },
+    { month: 'May', safetyScore: 94 },
+    { month: 'Jun', safetyScore: 96 }
+  ];
+
+  const incidentTypeData = [
+    { name: 'Slips & Falls', value: 30 },
+    { name: 'Equipment', value: 25 },
+    { name: 'Chemical', value: 20 },
+    { name: 'Electrical', value: 15 },
+    { name: 'Other', value: 10 }
+  ];
+
+  const safetyMetrics = {
+    incidents: 12,
+    safetyScore: 96,
+    inspections: 45,
+    teamMembers: 25
+  };
   
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -230,6 +275,21 @@ function Dashboard({ user }) {
             </form>
           </div>
         ) : null}
+
+        {/* New Safety Components */}
+        <div style={{ marginTop: '2rem' }}>
+          <h2 style={sectionTitle}>📊 Safety Analytics</h2>
+          <SafetyMetricsSummary metrics={safetyMetrics} />
+          
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '2rem', marginTop: '2rem' }}>
+            <IncidentTrendChart data={incidentTrendData} />
+            <SafetyScoreChart data={safetyScoreData} />
+          </div>
+          
+          <div style={{ marginTop: '2rem' }}>
+            <IncidentTypeChart data={incidentTypeData} />
+          </div>
+        </div>
 
         {currentUser.role === 'safety_admin' && (
           <div style={{ marginTop: '2rem', padding: '1.5rem', background: 'var(--color-bg)', borderRadius: '1rem', border: '1px solid var(--color-border)' }}>
