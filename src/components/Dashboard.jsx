@@ -235,6 +235,18 @@ function Dashboard({ user }) {
             <p style={{ color: 'var(--color-text)', opacity: 0.8, margin: 0, fontSize: '1.3rem' }}>
               Welcome back, {currentUser.username}! Real-time safety performance monitoring
             </p>
+            <div style={{ 
+              background: '#10b981', 
+              color: 'white', 
+              padding: '1rem', 
+              borderRadius: '0.5rem', 
+              marginTop: '1rem',
+              fontSize: '1.2rem',
+              fontWeight: 'bold',
+              textAlign: 'center'
+            }}>
+              🎉 NEW: Quick Actions & Real Data Integration Added!
+            </div>
             <div style={getRoleBadgeStyle()} aria-label={`Current role: ${getRoleDisplayName()}`}>
               {getRoleDisplayName()}
             </div>
