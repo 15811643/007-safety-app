@@ -3,6 +3,7 @@ import '../styles/card.css';
 import '../styles/form.css';
 import '../styles/badge.css';
 import { SafetyChecklist } from './safety/SafetyComponents';
+import dataService from '../services/dataService';
 
 const pageStyle = { padding: '2rem', maxWidth: 1200, margin: '0 auto' };
 
@@ -35,6 +36,16 @@ function ComplianceTraining() {
 
   const handleChecklistComplete = (checklistData) => {
     console.log('Checklist completed:', checklistData);
+    
+    // Save checklist completion to data service
+    const checklist = {
+      type: activeChecklist,
+      items: checklistData,
+      completedBy: 'Current User', // In real app, get from auth
+      completedAt: new Date().toISOString()
+    };
+    
+    dataService.addChecklist(checklist);
     alert('Safety checklist completed successfully!');
   };
 

@@ -3,39 +3,41 @@ import '../styles/nav.css';
 import '../styles/card.css';
 import '../styles/form.css';
 import { useAuth } from './auth/AuthProvider';
+import dataService from '../services/dataService';
 
 const pageStyle = { padding: '2rem', maxWidth: 1200, margin: '0 auto' };
 
 function Settings() {
   const { user, updateUserRole, hasPermission } = useAuth();
-  const [users, setUsers] = useState([
-    { id: 1, name: 'John Smith', email: 'john@company.com', role: 'worker', status: 'active' },
-    { id: 2, name: 'Sarah Johnson', email: 'sarah@company.com', role: 'supervisor', status: 'active' },
-    { id: 3, name: 'Mike Wilson', email: 'mike@company.com', role: 'safety_admin', status: 'active' },
-    { id: 4, name: 'Lisa Brown', email: 'lisa@company.com', role: 'worker', status: 'inactive' }
-  ]);
+  const [users, setUsers] = useState([]);
+
+  // Load users from data service
+  useEffect(() => {
+    const allUsers = dataService.getUsers();
+    setUsers(allUsers);
+  }, []);
 
   const [showAddUser, setShowAddUser] = useState(false);
   const [newUser, setNewUser] = useState({ name: '', email: '', role: 'worker' });
 
   const handleAddUser = (e) => {
     e.preventDefault();
-    const user = {
-      id: Date.now(),
-      ...newUser,
-      status: 'active'
-    };
-    setUsers([...users, user]);
+    const newUserData = dataService.addUser(newUser);
+    setUsers([...users, newUserData]);
     setNewUser({ name: '', email: '', role: 'worker' });
     setShowAddUser(false);
   };
 
   const handleUpdateUserRole = (userId, newRole) => {
+    dataService.updateUser(userId, { role: newRole });
     setUsers(users.map(u => u.id === userId ? { ...u, role: newRole } : u));
   };
 
   const handleToggleUserStatus = (userId) => {
-    setUsers(users.map(u => u.id === userId ? { ...u, status: u.status === 'active' ? 'inactive' : 'active' } : u));
+    const user = users.find(u => u.id === userId);
+    const newStatus = user.status === 'active' ? 'inactive' : 'active';
+    dataService.updateUser(userId, { status: newStatus });
+    setUsers(users.map(u => u.id === userId ? { ...u, status: newStatus } : u));
   };
 
   return (
@@ -239,6 +241,86 @@ function Settings() {
           </div>
         </div>
       )}
+
+      {/* Data Management */}
+      <div style={{ 
+        background: 'white', 
+        padding: '2rem', 
+        borderRadius: '1rem', 
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+        marginBottom: '2rem'
+      }}>
+        <h2 style={{ color: '#3b82f6', marginBottom: '1rem' }}>💾 Data Management</h2>
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+          <button 
+            onClick={() => dataService.exportData()}
+            style={{
+              background: '#10b981',
+              color: 'white',
+              padding: '0.75rem 1.5rem',
+              border: 'none',
+              borderRadius: '0.5rem',
+              cursor: 'pointer',
+              fontSize: '1rem'
+            }}
+          >
+            📤 Export Data
+          </button>
+          <button 
+            onClick={() => dataService.createBackup()}
+            style={{
+              background: '#3b82f6',
+              color: 'white',
+              padding: '0.75rem 1.5rem',
+              border: 'none',
+              borderRadius: '0.5rem',
+              cursor: 'pointer',
+              fontSize: '1rem'
+            }}
+          >
+            💾 Create Backup
+          </button>
+          <button 
+            onClick={() => {
+              if (confirm('Restore from backup? This will overwrite current data.')) {
+                dataService.restoreBackup();
+                alert('Backup restored successfully!');
+              }
+            }}
+            style={{
+              background: '#f59e0b',
+              color: 'white',
+              padding: '0.75rem 1.5rem',
+              border: 'none',
+              borderRadius: '0.5rem',
+              cursor: 'pointer',
+              fontSize: '1rem'
+            }}
+          >
+            🔄 Restore Backup
+          </button>
+          <button 
+            onClick={() => {
+              if (confirm('Clear all data? This action cannot be undone.')) {
+                dataService.clearAllData();
+                alert('All data cleared successfully!');
+                window.location.reload();
+              }
+            }}
+            style={{
+              background: '#ef4444',
+              color: 'white',
+              padding: '0.75rem 1.5rem',
+              border: 'none',
+              borderRadius: '0.5rem',
+              cursor: 'pointer',
+              fontSize: '1rem'
+            }}
+          >
+            🗑️ Clear All Data
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

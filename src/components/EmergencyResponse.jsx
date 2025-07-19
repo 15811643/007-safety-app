@@ -3,6 +3,7 @@ import '../styles/card.css';
 import '../styles/form.css';
 import '../styles/badge.css';
 import { EmergencyAlert, EmergencyContactManager } from './safety/SafetyComponents';
+import dataService from '../services/dataService';
 
 const pageStyle = { padding: '2rem', maxWidth: 1200, margin: '0 auto' };
 
@@ -13,11 +14,13 @@ function EmergencyResponse() {
     { id: 3, type: 'info', message: 'Emergency drill scheduled for tomorrow', acknowledged: false }
   ]);
 
-  const [contacts] = useState([
-    { id: 1, name: 'John Smith', role: 'Safety Manager', phone: '555-0101' },
-    { id: 2, name: 'Sarah Johnson', role: 'Emergency Coordinator', phone: '555-0102' },
-    { id: 3, name: 'Mike Wilson', role: 'First Aid Officer', phone: '555-0103' }
-  ]);
+  const [contacts, setContacts] = useState([]);
+
+  // Load contacts from data service
+  useEffect(() => {
+    const emergencyContacts = dataService.getEmergencyContacts();
+    setContacts(emergencyContacts);
+  }, []);
 
   const handleAcknowledgeAlert = (alertId) => {
     setAlerts(prev => prev.map(alert => 
@@ -27,14 +30,20 @@ function EmergencyResponse() {
 
   const handleAddContact = (contact) => {
     console.log('Adding contact:', contact);
+    const newContact = dataService.addEmergencyContact(contact);
+    setContacts(prev => [...prev, newContact]);
   };
 
   const handleEditContact = (contact) => {
     console.log('Editing contact:', contact);
+    dataService.updateEmergencyContact(contact.id, contact);
+    setContacts(prev => prev.map(c => c.id === contact.id ? contact : c));
   };
 
   const handleDeleteContact = (contactId) => {
     console.log('Deleting contact:', contactId);
+    dataService.deleteEmergencyContact(contactId);
+    setContacts(prev => prev.filter(c => c.id !== contactId));
   };
 
   return (

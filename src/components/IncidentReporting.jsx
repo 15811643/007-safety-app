@@ -3,6 +3,7 @@ import '../styles/card.css';
 import '../styles/form.css';
 import '../styles/badge.css';
 import { IncidentReportForm } from './safety/SafetyComponents';
+import dataService from '../services/dataService';
 
 const pageStyle = { padding: '2rem', maxWidth: 1200, margin: '0 auto' };
 const formStyle = { background: 'var(--color-bg-card)', padding: '2.5rem', borderRadius: '1.5rem', boxShadow: 'var(--shadow-card)', width: '100%', maxWidth: 600, border: '1px solid var(--color-border)', margin: '0 auto' };
@@ -23,11 +24,13 @@ function IncidentReporting() {
   });
   const [error, setError] = useState('');
 
-  const [reports] = useState([
-    { id: 1, type: 'Equipment Malfunction', severity: 'Medium', time: '2024-03-15 14:30', status: 'Resolved' },
-    { id: 2, type: 'Slip/Trip Hazard', severity: 'Low', time: '2024-03-14 10:00', status: 'Closed' },
-    { id: 3, type: 'Chemical Spill', severity: 'High', time: '2024-03-13 16:00', status: 'In Progress' }
-  ]);
+  const [reports, setReports] = useState([]);
+
+  // Load incidents from data service
+  useEffect(() => {
+    const incidents = dataService.getIncidents();
+    setReports(incidents.slice(0, 5)); // Show 5 most recent
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -51,7 +54,14 @@ function IncidentReporting() {
 
   const handleIncidentSubmit = (data) => {
     console.log('Incident submitted:', data);
+    // Use data service to save incident
+    const savedIncident = dataService.addIncident(data);
+    console.log('Saved incident:', savedIncident);
     alert('Incident report submitted successfully!');
+    
+    // Refresh the reports list
+    const incidents = dataService.getIncidents();
+    setReports(incidents.slice(0, 5)); // Show 5 most recent
   };
 
   return (
