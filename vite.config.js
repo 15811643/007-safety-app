@@ -11,8 +11,8 @@ export default defineConfig({
         manualChunks: undefined
       }
     },
-    target: 'es2015',
-    minify: false,
+    target: 'es2020',
+    minify: 'terser',
     sourcemap: false,
     commonjsOptions: {
       include: [/node_modules/],
