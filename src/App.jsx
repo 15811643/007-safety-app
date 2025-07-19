@@ -12,6 +12,7 @@ import TeamDashboard from './components/TeamDashboard';
 import Settings from './components/Settings';
 import SafetyAdmin from './components/SafetyAdmin';
 import WorkerProfile from './components/WorkerProfile';
+import RealTimeMonitoring from './components/RealTimeMonitoring';
 
 // Import new safety modules
 import { AuthProvider, useAuth } from './components/auth/AuthProvider';
@@ -106,6 +107,7 @@ function AppContent() {
       <nav>
         <span style={{ fontSize: '1.5rem', marginRight: '1rem' }}>🦺</span>
         <NavLink to="/">Dashboard</NavLink>
+        <NavLink to="/monitoring">Real-Time Monitoring</NavLink>
         <NavLink to="/hazards">Hazard Alerts</NavLink>
         <NavLink to="/incidents">Incident Reporting</NavLink>
         <NavLink to="/compliance">Compliance & Training</NavLink>
@@ -140,6 +142,7 @@ function AppContent() {
       <div className="app-root">
         <Routes>
           <Route path="/" element={<Dashboard user={user} />} />
+          <Route path="/monitoring" element={<RealTimeMonitoring />} />
           <Route path="/hazards" element={<HazardAlerts />} />
           <Route path="/incidents" element={<IncidentReporting />} />
           <Route path="/compliance" element={<ComplianceTraining />} />
