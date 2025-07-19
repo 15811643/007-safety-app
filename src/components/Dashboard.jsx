@@ -229,32 +229,10 @@ function Dashboard({ user }) {
   // Force deployment update - timestamp: ${new Date().toISOString()}
   const [activeTab, setActiveTab] = useState('overview');
 
-  // MASSIVE BANNER - IMPOSSIBLE TO MISS!
-  const MassiveBanner = () => (
-    <div style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      background: 'linear-gradient(45deg, #ff0000, #00ff00, #0000ff)',
-      color: 'white',
-      padding: '20px',
-      textAlign: 'center',
-      fontSize: '24px',
-      fontWeight: 'bold',
-      zIndex: 9999,
-      animation: 'blink 1s infinite',
-      boxShadow: '0 4px 8px rgba(0,0,0,0.3)'
-    }}>
-      🚨🚨🚨 DEPLOYMENT SUCCESSFUL! NEW FEATURES ADDED! 🚨🚨🚨
-      <br />
-      ✅ Quick Actions | ✅ Real Data | ✅ Safety Features | ✅ Emergency Alerts
-    </div>
-  );
+
 
   return (
     <div className="page" role="main" aria-label="Safety Dashboard main content">
-      <MassiveBanner />
       <div className="card dashboard-card">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
           <div>
@@ -262,18 +240,6 @@ function Dashboard({ user }) {
             <p style={{ color: 'var(--color-text)', opacity: 0.8, margin: 0, fontSize: '1.3rem' }}>
               Welcome back, {currentUser.username}! Real-time safety performance monitoring
             </p>
-            <div style={{ 
-              background: '#10b981', 
-              color: 'white', 
-              padding: '1rem', 
-              borderRadius: '0.5rem', 
-              marginTop: '1rem',
-              fontSize: '1.2rem',
-              fontWeight: 'bold',
-              textAlign: 'center'
-            }}>
-              🎉 NEW: Quick Actions & Real Data Integration Added!
-            </div>
             <div style={getRoleBadgeStyle()} aria-label={`Current role: ${getRoleDisplayName()}`}>
               {getRoleDisplayName()}
             </div>
