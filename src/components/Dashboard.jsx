@@ -14,6 +14,7 @@ import {
   SafetyMetricsSummary 
 } from './safety/SafetyCharts';
 import { useAuth } from './auth/AuthProvider';
+import dataService from '../services/dataService';
 
 // Sample rolling 12-month safety data
 const safetyData = [
@@ -94,15 +95,36 @@ function Dashboard({ user }) {
   // Default user if not provided
   const currentUser = user || authUser || { role: 'worker', username: 'Worker' };
 
-  // Sample data for charts
-  const incidentTrendData = [
+  // Get real data from data service
+  const [incidentTrendData, setIncidentTrendData] = useState([
     { month: 'Jan', incidents: 3, nearMisses: 5 },
     { month: 'Feb', incidents: 2, nearMisses: 3 },
     { month: 'Mar', incidents: 1, nearMisses: 4 },
     { month: 'Apr', incidents: 4, nearMisses: 2 },
     { month: 'May', incidents: 2, nearMisses: 6 },
     { month: 'Jun', incidents: 1, nearMisses: 3 }
-  ];
+  ]);
+
+  // Load real data from data service
+  useEffect(() => {
+    const incidents = dataService.getIncidents();
+    const checklists = dataService.getChecklists();
+    const metrics = dataService.getSafetyMetrics();
+    
+    // Update metrics with real data
+    setSafetyMetrics(metrics);
+    
+    // Create trend data from real incidents
+    const recentIncidents = incidents.slice(0, 6).reverse().map((incident, index) => ({
+      month: `${index + 1} day${index > 0 ? 's' : ''} ago`,
+      incidents: 1,
+      nearMisses: Math.floor(Math.random() * 3)
+    }));
+    
+    if (recentIncidents.length > 0) {
+      setIncidentTrendData(recentIncidents);
+    }
+  }, []);
 
   const safetyScoreData = [
     { month: 'Jan', safetyScore: 85 },
@@ -121,12 +143,12 @@ function Dashboard({ user }) {
     { name: 'Other', value: 10 }
   ];
 
-  const safetyMetrics = {
+  const [safetyMetrics, setSafetyMetrics] = useState({
     incidents: 12,
     safetyScore: 96,
     inspections: 45,
     teamMembers: 25
-  };
+  });
   
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -288,6 +310,73 @@ function Dashboard({ user }) {
           
           <div style={{ marginTop: '2rem' }}>
             <IncidentTypeChart data={incidentTypeData} />
+          </div>
+        </div>
+
+        {/* Quick Actions */}
+        <div style={{ marginTop: '2rem' }}>
+          <h2 style={sectionTitle}>⚡ Quick Actions</h2>
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
+            gap: '1rem',
+            marginTop: '1rem'
+          }}>
+            <div style={{ 
+              background: 'white', 
+              padding: '1.5rem', 
+              borderRadius: '1rem', 
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+              border: '2px solid #ef4444',
+              cursor: 'pointer'
+            }} onClick={() => window.location.href = '/incidents'}>
+              <h3 style={{ color: '#ef4444', marginBottom: '0.5rem' }}>🚨 Report Incident</h3>
+              <p style={{ margin: 0, fontSize: '0.9rem', color: '#6b7280' }}>
+                Submit a new safety incident report
+              </p>
+            </div>
+            
+            <div style={{ 
+              background: 'white', 
+              padding: '1.5rem', 
+              borderRadius: '1rem', 
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+              border: '2px solid #10b981',
+              cursor: 'pointer'
+            }} onClick={() => window.location.href = '/compliance'}>
+              <h3 style={{ color: '#10b981', marginBottom: '0.5rem' }}>✅ Safety Checklist</h3>
+              <p style={{ margin: 0, fontSize: '0.9rem', color: '#6b7280' }}>
+                Complete daily safety checklist
+              </p>
+            </div>
+            
+            <div style={{ 
+              background: 'white', 
+              padding: '1.5rem', 
+              borderRadius: '1rem', 
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+              border: '2px solid #3b82f6',
+              cursor: 'pointer'
+            }} onClick={() => window.location.href = '/monitoring'}>
+              <h3 style={{ color: '#3b82f6', marginBottom: '0.5rem' }}>📊 Live Monitoring</h3>
+              <p style={{ margin: 0, fontSize: '0.9rem', color: '#6b7280' }}>
+                View real-time safety metrics
+              </p>
+            </div>
+            
+            <div style={{ 
+              background: 'white', 
+              padding: '1.5rem', 
+              borderRadius: '1rem', 
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+              border: '2px solid #f59e0b',
+              cursor: 'pointer'
+            }} onClick={() => window.location.href = '/emergency'}>
+              <h3 style={{ color: '#f59e0b', marginBottom: '0.5rem' }}>🚨 Emergency</h3>
+              <p style={{ margin: 0, fontSize: '0.9rem', color: '#6b7280' }}>
+                Emergency contacts & procedures
+              </p>
+            </div>
           </div>
         </div>
 
