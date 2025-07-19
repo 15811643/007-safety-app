@@ -226,6 +226,9 @@ function Dashboard({ user }) {
     setData(prev => prev.map(d => d.month === editMonth ? { ...editData, month: editMonth } : d));
   };
 
+  // Force deployment update - timestamp: ${new Date().toISOString()}
+  const [activeTab, setActiveTab] = useState('overview');
+
   return (
     <div className="page" role="main" aria-label="Safety Dashboard main content">
       <div className="card dashboard-card">
