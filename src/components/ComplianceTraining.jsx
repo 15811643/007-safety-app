@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/card.css';
 import '../styles/form.css';
 import '../styles/badge.css';
