@@ -6,12 +6,12 @@ export default defineConfig({
   plugins: [react()],
   build: {
     rollupOptions: {
-      external: [],
+      external: ['@rollup/rollup-linux-x64-gnu'],
       output: {
         manualChunks: undefined
       }
     },
-    target: 'es2015',
+    target: 'es2020',
     minify: false,
     sourcemap: false,
     commonjsOptions: {
@@ -21,7 +21,7 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ['react', 'react-dom'],
-    exclude: ['@rollup/rollup-linux-x64-gnu', '@rollup/rollup-win32-x64-msvc']
+    exclude: ['@rollup/rollup-linux-x64-gnu', '@rollup/rollup-darwin-x64', '@rollup/rollup-win32-x64-msvc']
   },
   resolve: {
     alias: {
