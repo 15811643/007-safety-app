@@ -4,26 +4,30 @@ A comprehensive safety management application built with React and Vite.
 
 ## Features
 
-- Dashboard for safety metrics
-- Incident reporting system
-- Hazard alerts
-- Emergency response protocols
-- Compliance training modules
-- Team management tools
+- **Safety Dashboard** - Real-time KPI monitoring and analytics
+- **Incident Reporting** - Comprehensive incident tracking and management
+- **Compliance Training** - Interactive safety checklists and training modules
+- **Emergency Response** - Emergency alerts and contact management
+- **Real-time Monitoring** - Live safety data and predictive insights
+- **User Management** - Role-based access control and user profiles
 
-## Deployment
+## Deployment Status
 
-This app is deployed on Vercel and accessible via the web.
+✅ **Latest deployment**: Build verified working locally
+✅ **Vite config**: Optimized for Vercel deployment
+✅ **Rollup issues**: Resolved with Vite 4.5.0
 
-## Development
+## Quick Start
 
 ```bash
 npm install
 npm run dev
+npm run build
 ```
 
-## Build
+## Live Demo
 
-```bash
-npm run build
-``` 
+Visit: https://web-based-safety-app-tartan1000.vercel.app
+
+---
+*Last updated: $(Get-Date)* 
