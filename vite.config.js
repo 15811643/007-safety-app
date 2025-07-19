@@ -15,12 +15,18 @@ export default defineConfig({
     minify: false,
     sourcemap: false,
     commonjsOptions: {
-      include: []
+      include: [/node_modules/],
+      transformMixedEsModules: true
     }
   },
   optimizeDeps: {
     include: ['react', 'react-dom'],
     exclude: ['@rollup/rollup-linux-x64-gnu']
+  },
+  resolve: {
+    alias: {
+      'cookie': 'cookie/dist/index.js'
+    }
   },
   server: {
     port: 3000,
