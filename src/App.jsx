@@ -13,6 +13,23 @@ import Settings from './components/Settings';
 import SafetyAdmin from './components/SafetyAdmin';
 import WorkerProfile from './components/WorkerProfile';
 
+// Import new safety modules
+import { AuthProvider, useAuth } from './components/auth/AuthProvider';
+import { 
+  IncidentReportForm, 
+  SafetyChecklist, 
+  EmergencyAlert, 
+  SafetyDashboard as SafetyDashboardComponent,
+  EmergencyContactManager 
+} from './components/safety/SafetyComponents';
+import { 
+  IncidentTrendChart, 
+  SafetyScoreChart, 
+  IncidentTypeChart, 
+  DepartmentSafetyChart,
+  SafetyMetricsSummary 
+} from './components/safety/SafetyCharts';
+
 function ThemeToggle({ theme, setTheme }) {
   return (
     <button
@@ -26,7 +43,7 @@ function ThemeToggle({ theme, setTheme }) {
   );
 }
 
-function App() {
+function AppContent() {
   const [theme, setTheme] = useState(() => {
     // Prefer system theme on first load
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -35,18 +52,18 @@ function App() {
     return 'light';
   });
 
-  const [user, setUser] = useState(null);
+  const { user, login, logout, isAuthenticated, loading } = useAuth();
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
   const handleLogin = (userData) => {
-    setUser(userData);
+    login(userData.email, userData.password);
   };
 
   const handleLogout = () => {
-    setUser(null);
+    logout();
   };
 
   // For nav link highlighting
@@ -64,8 +81,17 @@ function App() {
     );
   }
 
+  // Show loading while auth is initializing
+  if (loading) {
+    return (
+      <div className="app-root" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <div>Loading...</div>
+      </div>
+    );
+  }
+
   // If not logged in, show login page
-  if (!user) {
+  if (!isAuthenticated) {
     return (
       <Router>
         <div className="app-root">
@@ -139,6 +165,14 @@ function App() {
         </Routes>
       </div>
     </Router>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
 
