@@ -24,6 +24,18 @@ export const AuthProvider = ({ children }) => {
       const userData = JSON.parse(savedUser);
       setUser(userData);
       setUserRole(userData.role || 'user');
+    } else {
+      // Auto-login for demo purposes - remove this in production
+      const demoUser = {
+        id: '1',
+        email: 'demo@safetyapp.com',
+        name: 'Demo User',
+        role: 'safety_admin',
+        avatar: 'https://ui-avatars.com/api/?name=Demo+User&background=random'
+      };
+      setUser(demoUser);
+      setUserRole(demoUser.role);
+      localStorage.setItem('safetyAppUser', JSON.stringify(demoUser));
     }
     setLoading(false);
   }, []);
