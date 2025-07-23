@@ -13,6 +13,7 @@ import Settings from './components/Settings';
 import SafetyAdmin from './components/SafetyAdmin';
 import WorkerProfile from './components/WorkerProfile';
 import RealTimeMonitoring from './components/RealTimeMonitoring';
+import TrafficProtectionPlan from './components/TrafficProtectionPlan';
 
 // Import new safety modules
 import { AuthProvider, useAuth } from './components/auth/AuthProvider';
@@ -126,6 +127,7 @@ function AppContent() {
         <NavLink to="/admin" requiredRole="safety_admin">Safety Admin</NavLink>
         <NavLink to="/settings">Settings</NavLink>
         <NavLink to="/profile">My Profile</NavLink>
+        <NavLink to="#traffic-protection-plan">Traffic Protection Plan</NavLink>
         <ThemeToggle theme={theme} setTheme={setTheme} />
         <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <span style={{ fontSize: '0.9rem', color: 'var(--color-nav-link)', opacity: 0.8 }}>
@@ -175,6 +177,7 @@ function AppContent() {
           } />
           <Route path="/settings" element={<Settings />} />
           <Route path="/profile" element={<WorkerProfile />} />
+          <Route path="/traffic-protection-plan" element={<TrafficProtectionPlan />} />
           <Route path="*" element={
             <div style={{ padding: '2rem', textAlign: 'center' }}>
               <h1>404 - Page Not Found</h1>
