@@ -1,35 +1,35 @@
 /* Root theme variables and global styles only */
 :root {
-  --color-bg: #f7fafc;
-  --color-bg-card: #fff;
-  --color-primary: #047857;
-  --color-primary-dark: #065f46;
-  --color-accent: #10b981;
-  --color-danger: #dc2626;
-  --color-text: #222;
-  --color-nav: #047857;
-  --color-nav-link: #fff;
-  --color-nav-link-active: #a7f3d0;
+  --color-bg: #ffffff;
+  --color-bg-card: #f5f7fa;
+  --color-primary: #00263a;
+  --color-primary-dark: #001a26;
+  --color-accent: #ff8200;
+  --color-danger: #ef4444;
+  --color-text: #222b45;
+  --color-nav: #00263a;
+  --color-nav-link: #f5f7fa;
+  --color-nav-link-active: #ff8200;
   --color-border: #e5e7eb;
-  --shadow-card: 0 4px 24px rgba(16, 185, 129, 0.10);
+  --shadow-card: 0 4px 24px rgba(0, 38, 58, 0.10);
   --font-size-base: 1.35rem;
   --font-size-lg: 2.4rem;
   --font-size-nav: 1.5rem;
 }
 
 [data-theme="dark"] {
-  --color-bg: #18181b;
-  --color-bg-card: #23272f;
-  --color-primary: #10b981;
-  --color-primary-dark: #047857;
-  --color-accent: #34d399;
-  --color-danger: #ef4444;
-  --color-text: #f3f4f6;
-  --color-nav: #23272f;
-  --color-nav-link: #a7f3d0;
-  --color-nav-link-active: #10b981;
-  --color-border: #374151;
-  --shadow-card: 0 4px 24px rgba(16, 185, 129, 0.18);
+  --color-bg: #0a1929;
+  --color-bg-card: #1a2636;
+  --color-primary: #003a5d;
+  --color-primary-dark: #00263a;
+  --color-accent: #ff8200;
+  --color-danger: #f87171;
+  --color-text: #f5f7fa;
+  --color-nav: #003a5d;
+  --color-nav-link: #f5f7fa;
+  --color-nav-link-active: #ff8200;
+  --color-border: #334155;
+  --shadow-card: 0 4px 24px rgba(0, 58, 93, 0.18);
 }
 
 body {
