@@ -50,7 +50,57 @@ const TrafficProtectionPlan = () => {
   return (
     <div style={{ padding: '2rem', fontSize: '1.35rem', maxWidth: 900, margin: '0 auto' }}>
       <h1 style={{ fontSize: '2.4rem', marginBottom: '1.5rem' }}>Traffic Control Plan</h1>
+      {/* OTM Book 7 Reference Section */}
+      <fieldset style={{ border: '2px solid var(--color-accent)', borderRadius: 8, padding: '1.5rem', background: 'var(--color-bg-card)' }}>
+        <legend style={{ fontWeight: 'bold', fontSize: '1.2rem', color: 'var(--color-accent)' }}>Ontario Traffic Manual: Book 7 Reference</legend>
+        <p>
+          For detailed requirements, consult the <a href="https://www.publications.gov.on.ca/store/20170501121/Free_Download_Files/300958.pdf" target="_blank" rel="noopener noreferrer">Ontario Traffic Manual: Book 7</a>.
+        </p>
+        <ul style={{ fontSize: '1.1rem', marginLeft: '1.5rem' }}>
+          <li>Use standard layouts for lane closures, detours, and flagging.</li>
+          <li>Follow minimum device spacing and placement tables.</li>
+          <li>Ensure all signs and devices are visible and reflective at night.</li>
+          <li>Maintain emergency access at all times.</li>
+        </ul>
+      </fieldset>
       <form style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+        {/* Standard Layout Selection */}
+        <fieldset style={{ border: '1px solid var(--color-border)', borderRadius: 8, padding: '1.5rem' }}>
+          <legend style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>Standard Work Zone Layout</legend>
+          <label>
+            Select Layout:<br/>
+            <select name="standardLayout" value={form.standardLayout || ''} onChange={handleChange} style={{ fontSize: '1.1rem', padding: '0.5rem', marginTop: 4 }}>
+              <option value="">-- Select --</option>
+              <option value="single-lane-closure">Single Lane Closure</option>
+              <option value="two-way-flagging">Two-Way Flagging</option>
+              <option value="detour">Detour</option>
+              <option value="shoulder-work">Shoulder Work</option>
+              <option value="mobile-operation">Mobile Operation</option>
+              <option value="other">Other</option>
+            </select>
+          </label>
+        </fieldset>
+        {/* Device Selection */}
+        <fieldset style={{ border: '1px solid var(--color-border)', borderRadius: 8, padding: '1.5rem' }}>
+          <legend style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>Traffic Control Devices</legend>
+          <label><input type="checkbox" name="cones" /> Cones</label><br/>
+          <label><input type="checkbox" name="barrels" /> Barrels</label><br/>
+          <label><input type="checkbox" name="signs" /> Signs</label><br/>
+          <label><input type="checkbox" name="arrowBoards" /> Arrow Boards</label><br/>
+          <label><input type="checkbox" name="barriers" /> Barriers</label><br/>
+          <label><input type="checkbox" name="flaggers" /> Flaggers</label><br/>
+          <label><input type="checkbox" name="portableLights" /> Portable Lights</label><br/>
+          <label><input type="checkbox" name="otherDevice" /> Other</label>
+        </fieldset>
+        {/* Compliance Checklist */}
+        <fieldset style={{ border: '1px solid var(--color-border)', borderRadius: 8, padding: '1.5rem' }}>
+          <legend style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>OTM Book 7 Compliance Checklist</legend>
+          <label><input type="checkbox" name="check-spacing" /> Device spacing meets OTM Book 7 tables</label><br/>
+          <label><input type="checkbox" name="check-signs" /> All signs are reflective and visible at night</label><br/>
+          <label><input type="checkbox" name="check-access" /> Emergency access is maintained</label><br/>
+          <label><input type="checkbox" name="check-buffer" /> Buffer and transition areas are adequate</label><br/>
+          <label><input type="checkbox" name="check-training" /> All workers trained in OTM Book 7 requirements</label>
+        </fieldset>
         {/* Project/Site Details */}
         <fieldset style={{ border: '1px solid var(--color-border)', borderRadius: 8, padding: '1.5rem' }}>
           <legend style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>Project / Site Details</legend>
