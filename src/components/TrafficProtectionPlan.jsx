@@ -29,15 +29,51 @@ const initialForm = {
   developedDate: '',
 };
 
+const layoutDeviceMap = {
+  'single-lane-closure': ['cones', 'barrels', 'signs', 'arrowBoards', 'barriers'],
+  'two-way-flagging': ['cones', 'signs', 'flaggers'],
+  'detour': ['signs', 'barriers', 'cones'],
+  'shoulder-work': ['cones', 'signs'],
+  'mobile-operation': ['cones', 'signs', 'arrowBoards'],
+  'other': [],
+};
+
+const layoutDiagramMap = {
+  'single-lane-closure': 'Single Lane Closure Diagram',
+  'two-way-flagging': 'Two-Way Flagging Diagram',
+  'detour': 'Detour Diagram',
+  'shoulder-work': 'Shoulder Work Diagram',
+  'mobile-operation': 'Mobile Operation Diagram',
+  'other': 'Custom/Other Layout',
+};
+
 const TrafficProtectionPlan = () => {
   const [form, setForm] = useState(initialForm);
+  const [devices, setDevices] = useState({
+    cones: false, barrels: false, signs: false, arrowBoards: false, barriers: false, flaggers: false, portableLights: false, otherDevice: false
+  });
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+    if (name === 'standardLayout') {
+      setForm({ ...form, standardLayout: value });
+      // Auto-select devices for layout
+      const autoDevices = layoutDeviceMap[value] || [];
+      setDevices((prev) => {
+        const newDevices = { ...prev };
+        Object.keys(newDevices).forEach((key) => {
+          newDevices[key] = autoDevices.includes(key);
+        });
+        return newDevices;
+      });
+      return;
+    }
     if (name.startsWith('siteFactors.')) {
       setForm({ ...form, siteFactors: { ...form.siteFactors, [name.split('.')[1]]: value } });
     } else if (name.startsWith('proceduralFactors.')) {
       setForm({ ...form, proceduralFactors: { ...form.proceduralFactors, [name.split('.')[1]]: type === 'checkbox' ? checked : value } });
+    } else if (devices.hasOwnProperty(name)) {
+      setDevices({ ...devices, [name]: checked });
     } else {
       setForm({ ...form, [name]: value });
     }
@@ -79,18 +115,25 @@ const TrafficProtectionPlan = () => {
               <option value="other">Other</option>
             </select>
           </label>
+          {/* Visual Diagram Placeholder */}
+          {form.standardLayout && (
+            <div style={{ marginTop: 16, border: '2px dashed var(--color-accent)', borderRadius: 8, padding: 24, textAlign: 'center', background: 'var(--color-bg-card)', color: 'var(--color-accent)', fontWeight: 'bold', fontSize: '1.2rem' }}>
+              {layoutDiagramMap[form.standardLayout]}
+              <div style={{ fontSize: '0.95rem', color: 'var(--color-text)', marginTop: 8 }}>[Diagram placeholder]</div>
+            </div>
+          )}
         </fieldset>
         {/* Device Selection */}
         <fieldset style={{ border: '1px solid var(--color-border)', borderRadius: 8, padding: '1.5rem' }}>
           <legend style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>Traffic Control Devices</legend>
-          <label><input type="checkbox" name="cones" /> Cones</label><br/>
-          <label><input type="checkbox" name="barrels" /> Barrels</label><br/>
-          <label><input type="checkbox" name="signs" /> Signs</label><br/>
-          <label><input type="checkbox" name="arrowBoards" /> Arrow Boards</label><br/>
-          <label><input type="checkbox" name="barriers" /> Barriers</label><br/>
-          <label><input type="checkbox" name="flaggers" /> Flaggers</label><br/>
-          <label><input type="checkbox" name="portableLights" /> Portable Lights</label><br/>
-          <label><input type="checkbox" name="otherDevice" /> Other</label>
+          <label><input type="checkbox" name="cones" checked={devices.cones} onChange={handleChange} /> Cones</label><br/>
+          <label><input type="checkbox" name="barrels" checked={devices.barrels} onChange={handleChange} /> Barrels</label><br/>
+          <label><input type="checkbox" name="signs" checked={devices.signs} onChange={handleChange} /> Signs</label><br/>
+          <label><input type="checkbox" name="arrowBoards" checked={devices.arrowBoards} onChange={handleChange} /> Arrow Boards</label><br/>
+          <label><input type="checkbox" name="barriers" checked={devices.barriers} onChange={handleChange} /> Barriers</label><br/>
+          <label><input type="checkbox" name="flaggers" checked={devices.flaggers} onChange={handleChange} /> Flaggers</label><br/>
+          <label><input type="checkbox" name="portableLights" checked={devices.portableLights} onChange={handleChange} /> Portable Lights</label><br/>
+          <label><input type="checkbox" name="otherDevice" checked={devices.otherDevice} onChange={handleChange} /> Other</label>
         </fieldset>
         {/* Compliance Checklist */}
         <fieldset style={{ border: '1px solid var(--color-border)', borderRadius: 8, padding: '1.5rem' }}>
