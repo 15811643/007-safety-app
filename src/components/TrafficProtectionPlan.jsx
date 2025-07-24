@@ -47,11 +47,59 @@ const layoutDiagramMap = {
   'other': 'Custom/Other Layout',
 };
 
+const closureTypes = [
+  { type: 'single-lane-closure', label: 'Single Lane Closure', taper: '30m', buffer: '60m', spacing: '10m' },
+  { type: 'double-lane-closure', label: 'Double Lane Closure', taper: '60m', buffer: '90m', spacing: '10m' },
+  { type: 'shoulder-closure', label: 'Shoulder Closure', taper: '15m', buffer: '30m', spacing: '10m' },
+  { type: 'full-road-closure', label: 'Full Road Closure', taper: '60m', buffer: '90m', spacing: '10m' },
+  { type: 'ramp-closure', label: 'Ramp Closure', taper: '30m', buffer: '60m', spacing: '10m' },
+  { type: 'detour', label: 'Detour', taper: '-', buffer: '-', spacing: '10m' },
+  { type: 'mobile-operation', label: 'Mobile Operation', taper: '-', buffer: '-', spacing: '20m' },
+  { type: 'two-way-flagging', label: 'Two-Way Flagging', taper: '30m', buffer: '60m', spacing: '10m' },
+  { type: 'intermittent-closure', label: 'Intermittent/Short Duration Closure', taper: '15m', buffer: '30m', spacing: '10m' },
+];
+
+const closureTypesDetailed = [
+  {
+    group: 'Multi-Lane Undivided',
+    options: [
+      { type: 'ug-1', label: 'Designated Construction Zone Signing (UG-1)', layout: 'UG-1', duration: 'VSD/SD/LD' },
+      { type: 'ug-2', label: 'Reduced Speed Zone Signing (UG-2)', layout: 'UG-2', duration: 'VSD/SD/LD' },
+    ]
+  },
+  {
+    group: 'Segment',
+    options: [
+      { type: 'us-1', label: 'Intermittent Work (US-1)', layout: 'US-1', duration: 'Mobile' },
+      { type: 'us-2', label: 'Intermittent Work (US-2)', layout: 'US-2', duration: 'Mobile' },
+      { type: 'us-3', label: 'Intermittent Work (US-3)', layout: 'US-3', duration: 'Mobile' },
+      { type: 'us-4', label: 'Shoulder Work (US-4)', layout: 'US-4', duration: 'SD/LD' },
+      { type: 'us-5', label: 'Shoulder Work (US-5)', layout: 'US-5', duration: 'SD/LD' },
+      { type: 'us-6', label: 'Lane Encroachment (US-6)', layout: 'US-6', duration: 'SD/LD' },
+      { type: 'us-7', label: 'Lane Encroachment (US-7)', layout: 'US-7', duration: 'SD/LD' },
+      { type: 'us-8', label: 'Parking Lane Closed (US-8)', layout: 'US-8', duration: 'SD/LD' },
+      { type: 'us-9', label: 'Parking Lane Closed (US-9)', layout: 'US-9', duration: 'SD/LD' },
+      { type: 'us-10', label: 'Partial Lane Shift: Narrow Lanes (US-10)', layout: 'US-10', duration: 'SD/LD' },
+      { type: 'us-11', label: 'Lane Realignment (US-11)', layout: 'US-11', duration: 'SD/LD' },
+      { type: 'us-12', label: 'Zone Painting: Right or Left Lane Closed (US-12)', layout: 'US-12', duration: 'Mobile' },
+      { type: 'us-13', label: 'Lane Closed or Occupied (US-13)', layout: 'US-13', duration: 'SD/LD' },
+      { type: 'us-14', label: 'Left Lane Closed or Occupied (US-14)', layout: 'US-14', duration: 'SD/LD' },
+      { type: 'us-15', label: 'Two-Way Left Turn Lane Closed (US-15)', layout: 'US-15', duration: 'SD/LD' },
+      { type: 'us-16', label: 'Two-Way Left Turn Lane Closed (US-16)', layout: 'US-16', duration: 'SD/LD' },
+      { type: 'us-17', label: 'Lane Closed (US-17)', layout: 'US-17', duration: 'SD/LD' },
+      { type: 'us-18', label: 'Left Lane Closed (US-18)', layout: 'US-18', duration: 'SD/LD' },
+    ]
+  },
+  // Add more groups as needed
+];
+
 const TrafficProtectionPlan = () => {
   const [form, setForm] = useState(initialForm);
   const [devices, setDevices] = useState({
     cones: false, barrels: false, signs: false, arrowBoards: false, barriers: false, flaggers: false, portableLights: false, otherDevice: false
   });
+  const [closureType, setClosureType] = useState('');
+  const [closureTypeDetailed, setClosureTypeDetailed] = useState('');
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -122,6 +170,46 @@ const TrafficProtectionPlan = () => {
               <div style={{ fontSize: '0.95rem', color: 'var(--color-text)', marginTop: 8 }}>[Diagram placeholder]</div>
             </div>
           )}
+        </fieldset>
+        {/* Section F: Closure Type (Detailed) */}
+        <fieldset style={{ border: '1px solid var(--color-border)', borderRadius: 8, padding: '1.5rem' }}>
+          <legend style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>Section F: Closure Type (Book 7)</legend>
+          <label>
+            Select Closure Type:<br/>
+            <select name="closureTypeDetailed" value={closureTypeDetailed} onChange={e => setClosureTypeDetailed(e.target.value)} style={{ fontSize: '1.1rem', padding: '0.5rem', marginTop: 4 }}>
+              <option value="">-- Select --</option>
+              {closureTypesDetailed.map(group => (
+                <optgroup key={group.group} label={group.group}>
+                  {group.options.map(opt => (
+                    <option key={opt.type} value={opt.type}>{opt.label}</option>
+                  ))}
+                </optgroup>
+              ))}
+            </select>
+          </label>
+          {closureTypeDetailed && (() => {
+            const found = closureTypesDetailed.flatMap(g => g.options).find(opt => opt.type === closureTypeDetailed);
+            return found ? (
+              <div style={{ marginTop: 16 }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '1.1rem', background: 'var(--color-bg-card)' }}>
+                  <thead>
+                    <tr style={{ background: 'var(--color-nav-link-active)', color: 'var(--color-primary)' }}>
+                      <th style={{ padding: 8, border: '1px solid var(--color-border)' }}>Layout Title</th>
+                      <th style={{ padding: 8, border: '1px solid var(--color-border)' }}>Typical Layout</th>
+                      <th style={{ padding: 8, border: '1px solid var(--color-border)' }}>Duration</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style={{ padding: 8, border: '1px solid var(--color-border)' }}>{found.label}</td>
+                      <td style={{ padding: 8, border: '1px solid var(--color-border)' }}>{found.layout}</td>
+                      <td style={{ padding: 8, border: '1px solid var(--color-border)' }}>{found.duration}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            ) : null;
+          })()}
         </fieldset>
         {/* Device Selection */}
         <fieldset style={{ border: '1px solid var(--color-border)', borderRadius: 8, padding: '1.5rem' }}>
