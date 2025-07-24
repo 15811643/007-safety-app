@@ -210,12 +210,7 @@ function AppContent({ theme, setTheme }) {
 }
 
 function App() {
-  const [theme, setTheme] = React.useState(() => {
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
-    }
-    return 'light';
-  });
+  const [theme, setTheme] = React.useState('light');
   React.useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
