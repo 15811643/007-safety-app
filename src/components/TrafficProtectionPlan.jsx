@@ -151,7 +151,7 @@ const TrafficProtectionPlan = () => {
         <p>
           For detailed requirements, consult the <a href="https://www.publications.gov.on.ca/store/20170501121/Free_Download_Files/300958.pdf" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-accent)', textDecoration: 'underline' }}>Ontario Traffic Manual: Book 7</a>.
         </p>
-        <ul style={{ fontSize: '1.1rem', marginLeft: '1.5rem', color: 'var(--color-accent)' }}>
+        <ul style={{ fontSize: '1.1rem', marginLeft: '1.5rem', color: 'var(--color-text)' }}>
           <li>Use standard layouts for lane closures, detours, and flagging.</li>
           <li>Follow minimum device spacing and placement tables.</li>
           <li>Ensure all signs and devices are visible and reflective at night.</li>
@@ -163,7 +163,7 @@ const TrafficProtectionPlan = () => {
         <fieldset style={{ border: '1px solid var(--color-border)', borderRadius: 8, padding: '1.5rem', marginBottom: '2.5rem' }}>
           <SectionHeading>Section F: Closure Type (Book 7)</SectionHeading>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', maxWidth: 500 }}>
-            <label style={{ color: 'var(--color-accent)' }}>
+            <label style={{ color: 'var(--color-text)' }}>
               Select Closure Type:<br/>
               <select name="closureTypeDetailed" value={closureTypeDetailed} onChange={e => setClosureTypeDetailed(e.target.value)} style={{ fontSize: '1.1rem', padding: '0.5rem', marginTop: 4, width: '100%' }}>
                 <option value="">-- Select --</option>
@@ -205,7 +205,7 @@ const TrafficProtectionPlan = () => {
         <fieldset style={{ border: '1px solid var(--color-border)', borderRadius: 8, padding: '1.5rem', marginBottom: '2.5rem' }}>
           <SectionHeading>Standard Work Zone Layout</SectionHeading>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', maxWidth: 500 }}>
-            <label style={{ color: 'var(--color-accent)' }}>
+            <label style={{ color: 'var(--color-text)' }}>
               Select Layout:<br/>
               <select name="standardLayout" value={form.standardLayout || ''} onChange={handleChange} style={{ fontSize: '1.1rem', padding: '0.5rem', marginTop: 4, width: '100%' }}>
                 <option value="">-- Select --</option>
@@ -230,25 +230,25 @@ const TrafficProtectionPlan = () => {
         <fieldset style={{ border: '1px solid var(--color-border)', borderRadius: 8, padding: '1.5rem', marginBottom: '2.5rem' }}>
           <SectionHeading>Traffic Control Devices</SectionHeading>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2.5rem 2.5rem', alignItems: 'center' }}>
-            <label style={{ color: 'var(--color-accent)', minWidth: 180 }}><input type="checkbox" name="cones" checked={devices.cones} onChange={handleChange} /> Cones</label>
-            <label style={{ color: 'var(--color-accent)', minWidth: 180 }}><input type="checkbox" name="barrels" checked={devices.barrels} onChange={handleChange} /> Barrels</label>
-            <label style={{ color: 'var(--color-accent)', minWidth: 180 }}><input type="checkbox" name="signs" checked={devices.signs} onChange={handleChange} /> Signs</label>
-            <label style={{ color: 'var(--color-accent)', minWidth: 180 }}><input type="checkbox" name="arrowBoards" checked={devices.arrowBoards} onChange={handleChange} /> Arrow Boards</label>
-            <label style={{ color: 'var(--color-accent)', minWidth: 180 }}><input type="checkbox" name="barriers" checked={devices.barriers} onChange={handleChange} /> Barriers</label>
-            <label style={{ color: 'var(--color-accent)', minWidth: 180 }}><input type="checkbox" name="flaggers" checked={devices.flaggers} onChange={handleChange} /> Flaggers</label>
-            <label style={{ color: 'var(--color-accent)', minWidth: 180 }}><input type="checkbox" name="portableLights" checked={devices.portableLights} onChange={handleChange} /> Portable Lights</label>
-            <label style={{ color: 'var(--color-accent)', minWidth: 180 }}><input type="checkbox" name="otherDevice" checked={devices.otherDevice} onChange={handleChange} /> Other</label>
+            <label style={{ color: 'var(--color-text)', minWidth: 180 }}><input type="checkbox" name="cones" checked={devices.cones} onChange={handleChange} /> Cones</label>
+            <label style={{ color: 'var(--color-text)', minWidth: 180 }}><input type="checkbox" name="barrels" checked={devices.barrels} onChange={handleChange} /> Barrels</label>
+            <label style={{ color: 'var(--color-text)', minWidth: 180 }}><input type="checkbox" name="signs" checked={devices.signs} onChange={handleChange} /> Signs</label>
+            <label style={{ color: 'var(--color-text)', minWidth: 180 }}><input type="checkbox" name="arrowBoards" checked={devices.arrowBoards} onChange={handleChange} /> Arrow Boards</label>
+            <label style={{ color: 'var(--color-text)', minWidth: 180 }}><input type="checkbox" name="barriers" checked={devices.barriers} onChange={handleChange} /> Barriers</label>
+            <label style={{ color: 'var(--color-text)', minWidth: 180 }}><input type="checkbox" name="flaggers" checked={devices.flaggers} onChange={handleChange} /> Flaggers</label>
+            <label style={{ color: 'var(--color-text)', minWidth: 180 }}><input type="checkbox" name="portableLights" checked={devices.portableLights} onChange={handleChange} /> Portable Lights</label>
+            <label style={{ color: 'var(--color-text)', minWidth: 180 }}><input type="checkbox" name="otherDevice" checked={devices.otherDevice} onChange={handleChange} /> Other</label>
           </div>
         </fieldset>
         {/* Compliance Checklist */}
         <fieldset style={{ border: '1px solid var(--color-border)', borderRadius: 8, padding: '1.5rem', marginBottom: '2.5rem' }}>
           <SectionHeading>OTM Book 7 Compliance Checklist</SectionHeading>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', maxWidth: 500 }}>
-            <label style={{ color: 'var(--color-accent)' }}><input type="checkbox" name="check-spacing" /> Device spacing meets OTM Book 7 tables</label>
-            <label style={{ color: 'var(--color-accent)' }}><input type="checkbox" name="check-signs" /> All signs are reflective and visible at night</label>
-            <label style={{ color: 'var(--color-accent)' }}><input type="checkbox" name="check-access" /> Emergency access is maintained</label>
-            <label style={{ color: 'var(--color-accent)' }}><input type="checkbox" name="check-buffer" /> Buffer and transition areas are adequate</label>
-            <label style={{ color: 'var(--color-accent)' }}><input type="checkbox" name="check-training" /> All workers trained in OTM Book 7 requirements</label>
+            <label style={{ color: 'var(--color-text)' }}><input type="checkbox" name="check-spacing" /> Device spacing meets OTM Book 7 tables</label>
+            <label style={{ color: 'var(--color-text)' }}><input type="checkbox" name="check-signs" /> All signs are reflective and visible at night</label>
+            <label style={{ color: 'var(--color-text)' }}><input type="checkbox" name="check-access" /> Emergency access is maintained</label>
+            <label style={{ color: 'var(--color-text)' }}><input type="checkbox" name="check-buffer" /> Buffer and transition areas are adequate</label>
+            <label style={{ color: 'var(--color-text)' }}><input type="checkbox" name="check-training" /> All workers trained in OTM Book 7 requirements</label>
           </div>
         </fieldset>
         {/* Project/Site Details */}
