@@ -238,7 +238,7 @@ function Dashboard({ user }) {
           <div>
             <h1 className="heading">🦺 Safety Dashboard</h1>
             <p style={{ color: 'var(--color-text)', opacity: 0.8, margin: 0, fontSize: '1.3rem' }}>
-              Welcome back, {currentUser.username}! Real-time safety performance monitoring
+              Welcome back, <a href="/profile" style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}>{currentUser.name || currentUser.username}</a>{currentUser.role && <span style={{ fontSize: '1.1rem', color: 'var(--color-text)', marginLeft: 12 }}>({getRoleDisplayName()})</span>}! Real-time safety performance monitoring
             </p>
             <div style={getRoleBadgeStyle()} aria-label={`Current role: ${getRoleDisplayName()}`}>
               {getRoleDisplayName()}

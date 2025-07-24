@@ -14,6 +14,7 @@ import SafetyAdmin from './components/SafetyAdmin';
 import WorkerProfile from './components/WorkerProfile';
 import RealTimeMonitoring from './components/RealTimeMonitoring';
 import TrafficProtectionPlan from './components/TrafficProtectionPlan';
+import AdminUserManagement from './components/AdminUserManagement';
 
 // Import new safety modules
 import { AuthProvider, useAuth } from './components/auth/AuthProvider';
@@ -46,7 +47,14 @@ function ThemeToggle({ theme, setTheme }) {
 }
 
 function AppContent({ theme, setTheme }) {
-  const { user, login, logout, isAuthenticated, loading } = useAuth();
+  const { user, login, logout, isAuthenticated, loading, setUser } = useAuth();
+  const [role, setRole] = React.useState(user?.role || 'worker');
+
+  // Role selection box handler
+  const handleRoleChange = (e) => {
+    setRole(e.target.value);
+    if (user) setUser({ ...user, role: e.target.value });
+  };
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -134,22 +142,31 @@ function AppContent({ theme, setTheme }) {
           top: 0,
         }}>
           <div style={{ fontSize: '2rem', marginBottom: '2rem', color: 'var(--color-nav-link-active)' }}>🦺 Safety App</div>
+          {/* Role selection box */}
+          <div style={{ marginBottom: '2rem' }}>
+            <label htmlFor="role-select" style={{ color: 'var(--color-nav-link)', fontSize: '1rem' }}>Role:&nbsp;</label>
+            <select id="role-select" value={role} onChange={handleRoleChange} style={{ fontSize: '1.1rem', padding: '0.3rem', borderRadius: 4 }}>
+              <option value="worker">Worker</option>
+              <option value="supervisor">Supervisor</option>
+              <option value="safety_admin">Safety Admin</option>
+              <option value="general_user">General User</option>
+            </select>
+          </div>
           <NavLinkStyled to="/">Dashboard</NavLinkStyled>
           <NavLinkStyled to="/monitoring">Real-Time Monitoring</NavLinkStyled>
           <NavLinkStyled to="/hazards">Hazard Alerts</NavLinkStyled>
           <NavLinkStyled to="/incidents">Incident Reporting</NavLinkStyled>
           <NavLinkStyled to="/compliance">Compliance & Training</NavLinkStyled>
           <NavLinkStyled to="/emergency">Emergency Response</NavLinkStyled>
-          <NavLinkStyled to="/team" requiredRole="supervisor">Team Dashboard</NavLinkStyled>
-          <NavLinkStyled to="/admin" requiredRole="safety_admin">Safety Admin</NavLinkStyled>
+          <NavLinkStyled to="/team">Team Dashboard</NavLinkStyled>
+          <NavLinkStyled to="/admin">Safety Admin</NavLinkStyled>
           <NavLinkStyled to="/settings">Settings</NavLinkStyled>
           <NavLinkStyled to="/profile">My Profile</NavLinkStyled>
           <NavLinkStyled to="/traffic-protection-plan">Traffic Protection Plan</NavLinkStyled>
+          {role === 'safety_admin' && <NavLinkStyled to="/admin-users">Admin User Management</NavLinkStyled>}
           <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <span style={{ fontSize: '1rem', color: 'var(--color-nav-link)', opacity: 0.8 }}>
-              {user.role === 'worker' ? '👷 Worker' : 
-               user.role === 'supervisor' ? '👨‍💼 Supervisor' : 
-               user.role === 'safety_admin' ? '🔧 Safety Admin' : 'User'}
+              {role === 'worker' ? '👷 Worker' : role === 'supervisor' ? '👨‍💼 Supervisor' : role === 'safety_admin' ? '🔧 Safety Admin' : role === 'general_user' ? '👤 General User' : 'User'}
             </span>
             <button
               onClick={handleLogout}
@@ -170,31 +187,18 @@ function AppContent({ theme, setTheme }) {
         </aside>
         <main style={{ flex: 1, padding: '2.5rem 2rem', background: 'var(--color-bg)', minHeight: '100vh' }}>
           <Routes>
-            <Route path="/" element={<Dashboard user={user} />} />
+            <Route path="/" element={<Dashboard user={user} role={role} />} />
             <Route path="/monitoring" element={<RealTimeMonitoring />} />
             <Route path="/hazards" element={<HazardAlerts />} />
             <Route path="/incidents" element={<IncidentReporting />} />
             <Route path="/compliance" element={<ComplianceTraining />} />
             <Route path="/emergency" element={<EmergencyResponse />} />
-            <Route path="/team" element={
-              user.role === 'supervisor' || user.role === 'safety_admin' ? 
-              <TeamDashboard /> : 
-              <div style={{ padding: '2rem', textAlign: 'center' }}>
-                <h1>Access Denied</h1>
-                <p>You need supervisor privileges to access this page.</p>
-              </div>
-            } />
-            <Route path="/admin" element={
-              user.role === 'safety_admin' ? 
-              <SafetyAdmin /> : 
-              <div style={{ padding: '2rem', textAlign: 'center' }}>
-                <h1>Access Denied</h1>
-                <p>You need safety admin privileges to access this page.</p>
-              </div>
-            } />
+            <Route path="/team" element={<TeamDashboard />} />
+            <Route path="/admin" element={role === 'safety_admin' ? <SafetyAdmin /> : <div style={{ padding: '2rem', textAlign: 'center' }}><h1>Access Denied</h1><p>You need safety admin privileges to access this page.</p></div>} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/profile" element={<WorkerProfile />} />
             <Route path="/traffic-protection-plan" element={<TrafficProtectionPlan />} />
+            <Route path="/admin-users" element={<AdminUserManagement />} />
             <Route path="*" element={
               <div style={{ padding: '2rem', textAlign: 'center' }}>
                 <h1>404 - Page Not Found</h1>
