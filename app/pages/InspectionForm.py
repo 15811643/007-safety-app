@@ -15,19 +15,34 @@ st.markdown("""
         color: white;
     }
     .form-section {
-        background: white;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
         padding: 1.5rem;
         border-radius: 10px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         margin: 1rem 0;
         border-left: 4px solid #ff6b6b;
     }
+    .form-section h3 {
+        color: white;
+        margin-bottom: 1rem;
+    }
     .checkbox-container {
-        background: #f8f9fa;
+        background: rgba(255, 255, 255, 0.1);
         padding: 1rem;
         border-radius: 8px;
         margin: 0.5rem 0;
-        border: 1px solid #dee2e6;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .section-title {
+        background: linear-gradient(90deg, #ff6b6b 0%, #ee5a24 100%);
+        color: white;
+        padding: 1rem;
+        border-radius: 8px;
+        margin: 1rem 0;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.2rem;
     }
     .stButton > button {
         background: linear-gradient(90deg, #ff6b6b 0%, #ee5a24 100%);
@@ -37,6 +52,22 @@ st.markdown("""
         padding: 0.5rem 2rem;
         font-weight: bold;
     }
+    .stSelectbox > div > div {
+        background: rgba(255, 255, 255, 0.9);
+        color: #333;
+    }
+    .stTextInput > div > div > input {
+        background: rgba(255, 255, 255, 0.9);
+        color: #333;
+    }
+    .stTextArea > div > div > textarea {
+        background: rgba(255, 255, 255, 0.9);
+        color: #333;
+    }
+    .stNumberInput > div > div > input {
+        background: rgba(255, 255, 255, 0.9);
+        color: #333;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -44,7 +75,7 @@ st.markdown("""
 st.markdown("""
 <div class="inspection-header">
     <h1>📋 Safety Inspection Form</h1>
-    <p style="font-size: 1.1rem; margin-top: 0;">Ontario Regulation 213/91 Compliance</p>
+    <p style="font-size: 1.1rem; margin-top: 0;">Comprehensive Safety Compliance</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -67,7 +98,11 @@ st.sidebar.markdown("## 📋 Inspection Sections")
 selected_section = st.sidebar.selectbox("Select Section:", sections)
 
 # Main form content
-st.markdown(f"## {selected_section}")
+st.markdown(f"""
+<div class="section-title">
+    {selected_section}
+</div>
+""", unsafe_allow_html=True)
 
 # Traffic Control Plan
 if selected_section == "Traffic Control Plan":

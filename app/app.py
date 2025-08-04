@@ -46,7 +46,7 @@ st.markdown("""
 st.markdown("""
 <div class="main-header">
     <h1>🛡️ 007 Safety Inspection Assistant</h1>
-    <p style="font-size: 1.2rem; margin-top: 0;">Ontario Regulation 213/91 Compliance & Safety Management</p>
+    <p style="font-size: 1.2rem; margin-top: 0;">Comprehensive Safety Management System</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -60,7 +60,7 @@ with col1:
     st.markdown("""
     <div class="feature-card">
         <h3>📋 Safety Inspection Form</h3>
-        <p>Complete modular safety inspections with Ontario Regulation 213/91 compliance</p>
+        <p>Complete modular safety inspections with comprehensive compliance</p>
         <ul>
             <li>Traffic Control Plan</li>
             <li>Trenching Safety Plan</li>
@@ -153,7 +153,7 @@ st.markdown("## 📋 App Overview")
 st.markdown("""
 <div class="feature-card">
     <h3>🎯 Core Purpose</h3>
-    <p>A full-featured safety inspection and job preparation app aligned with <strong>Ontario Regulation 213/91</strong>, used by:</p>
+    <p>A full-featured safety inspection and job preparation app used by:</p>
     <ul>
         <li><strong>Field workers</strong> - Complete safety inspections</li>
         <li><strong>Surveyors</strong> - Conduct pre-visit assessments</li>
@@ -173,7 +173,7 @@ with col1:
     <div class="feature-card">
         <h3>🛡️ Safety Compliance</h3>
         <ul>
-            <li>Ontario Regulation 213/91 compliance</li>
+            <li>Comprehensive safety standards</li>
             <li>Auto-enforced safety logic</li>
             <li>Stop work decision support</li>
             <li>Comprehensive audit trails</li>
@@ -223,6 +223,6 @@ st.markdown("---")
 st.markdown("""
 <div style="text-align: center; color: #666; padding: 1rem;">
     <p>🛡️ <strong>007 Safety Assistant</strong> - Your comprehensive safety sidekick</p>
-    <p>Built with Streamlit & OpenAI GPT-4 | Ontario Regulation 213/91 Compliant</p>
+    <p>Built with Streamlit & OpenAI GPT-4</p>
 </div>
 """, unsafe_allow_html=True)
