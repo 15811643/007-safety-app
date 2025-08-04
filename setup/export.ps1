@@ -1,0 +1,1 @@
+Compress-Archive -Path memory, reports -DestinationPath backup_$(Get-Date -Format yyyyMMdd_HHmm).zip

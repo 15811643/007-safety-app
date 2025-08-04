@@ -47,4 +47,13 @@ coverage/
 
 # Temporary folders
 tmp/
-temp/ 
+temp/
+
+# Python specific
+.venv/
+__pycache__/
+*.pyc
+memory/
+data/
+reports/
+.streamlit/secrets.toml
