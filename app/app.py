@@ -132,7 +132,7 @@ with col2:
 # Additional features
 st.markdown("## 🔧 Additional Tools")
 
-col1, col2, col3 = st.columns(3)
+col1, col2, col3, col4 = st.columns(4)
 
 with col1:
     if st.button("📤 Upload Data", use_container_width=True):
@@ -145,6 +145,10 @@ with col2:
 with col3:
     if st.button("💾 Memory Archive", use_container_width=True):
         st.switch_page("pages/Memory.py")
+
+with col4:
+    if st.button("🛡️ Falls Prevention", use_container_width=True):
+        st.switch_page("pages/FallsPrevention.py")
 
 # App overview
 st.markdown("---")
