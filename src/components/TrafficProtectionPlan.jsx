@@ -93,15 +93,22 @@ const closureTypesDetailed = [
   // Add more groups as needed
 ];
 
-// Add a helper for section headings with orange accent in dark mode
+// Update SectionHeading to use --color-primary in light mode and --color-accent in dark mode
 const SectionHeading = ({ children }) => (
-  <legend style={{
-    fontWeight: 'bold',
-    fontSize: '1.2rem',
-    color: 'var(--color-accent)',
-    marginBottom: '1rem',
-    letterSpacing: '0.01em',
-  }}>{children}</legend>
+  <legend
+    style={{
+      fontWeight: 'bold',
+      fontSize: '1.2rem',
+      color: typeof window !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'dark'
+        ? 'var(--color-accent)'
+        : 'var(--color-primary)',
+      marginBottom: '1rem',
+      letterSpacing: '0.01em',
+      transition: 'color 0.3s',
+    }}
+  >
+    {children}
+  </legend>
 );
 
 const TrafficProtectionPlan = () => {
