@@ -83,6 +83,15 @@ st.markdown("""
 if 'inspection_data' not in st.session_state:
     st.session_state.inspection_data = {}
 
+# Form activation checkbox
+st.markdown("---")
+st.markdown("## 🔐 Form Access Control")
+form_activated = st.checkbox("✅ **Activate Safety Inspection Form** - Check this box to access the inspection form", value=False)
+
+if not form_activated:
+    st.info("🔒 **Form is locked** - Please check the box above to begin the safety inspection")
+    st.stop()
+
 # Form sections
 sections = [
     "Traffic Control Plan",

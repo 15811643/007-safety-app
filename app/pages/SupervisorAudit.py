@@ -69,6 +69,15 @@ st.markdown("""
 if 'audit_data' not in st.session_state:
     st.session_state.audit_data = {}
 
+# Form activation checkbox
+st.markdown("---")
+st.markdown("## 🔐 Form Access Control")
+form_activated = st.checkbox("✅ **Activate Supervisor Audit** - Check this box to access the audit form", value=False)
+
+if not form_activated:
+    st.info("🔒 **Form is locked** - Please check the box above to begin the supervisor audit")
+    st.stop()
+
 # Audit Information
 st.markdown("## 📋 Audit Information")
 col1, col2 = st.columns(2)

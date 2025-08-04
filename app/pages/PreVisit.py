@@ -52,6 +52,15 @@ st.markdown("""
 if 'previsit_data' not in st.session_state:
     st.session_state.previsit_data = {}
 
+# Form activation checkbox
+st.markdown("---")
+st.markdown("## 🔐 Form Access Control")
+form_activated = st.checkbox("✅ **Activate Pre-Visit Assessment** - Check this box to access the pre-visit form", value=False)
+
+if not form_activated:
+    st.info("🔒 **Form is locked** - Please check the box above to begin the pre-visit assessment")
+    st.stop()
+
 # Job Information
 st.markdown("## 📋 Job Information")
 col1, col2 = st.columns(2)

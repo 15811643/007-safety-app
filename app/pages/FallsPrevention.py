@@ -93,6 +93,15 @@ st.markdown("""
 if 'falls_data' not in st.session_state:
     st.session_state.falls_data = {}
 
+# Form activation checkbox
+st.markdown("---")
+st.markdown("## 🔐 Form Access Control")
+form_activated = st.checkbox("✅ **Activate Falls Prevention Assessment** - Check this box to access the falls prevention form", value=False)
+
+if not form_activated:
+    st.info("🔒 **Form is locked** - Please check the box above to begin the falls prevention assessment")
+    st.stop()
+
 # Work Information
 st.markdown("## 📋 Work Information")
 col1, col2 = st.columns(2)
