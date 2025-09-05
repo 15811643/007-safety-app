@@ -227,6 +227,6 @@ st.markdown("---")
 st.markdown("""
 <div style="text-align: center; color: #666; padding: 1rem;">
     <p>🛡️ <strong>007 Safety Assistant</strong> - Your comprehensive safety sidekick</p>
-    <p>Built with Streamlit & OpenAI GPT-4</p>
+    <p>Built with Streamlit & OpenAI GPT-5</p>
 </div>
 """, unsafe_allow_html=True)

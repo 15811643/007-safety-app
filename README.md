@@ -32,7 +32,7 @@ Visit: https://web-based-safety-app-tartan1000.vercel.app
 
 ### Features
 - Upload and analyze inspection CSVs
-- GPT-4 summaries of findings
+- GPT-5 summaries of findings
 - Interactive dashboard with hazard trends
 - Memory archive and report viewer
 

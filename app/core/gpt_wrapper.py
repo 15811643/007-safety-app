@@ -1,14 +1,18 @@
 import openai
 import time
 import os
+from dotenv import load_dotenv
 
-MODEL = "gpt-4"
-openai.api_key = os.getenv("OPENAI_API_KEY")
+# Load environment variables from .env file
+load_dotenv()
+
+MODEL = "gpt-5"
+client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def ask_gpt(prompt, retries=3, model=MODEL):
     for _ in range(retries):
         try:
-            response = openai.ChatCompletion.create(
+            response = client.chat.completions.create(
                 model=model,
                 messages=[{"role": "user", "content": prompt}],
             )
