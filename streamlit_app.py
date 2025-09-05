@@ -36,20 +36,13 @@ with st.sidebar:
     st.page_link("pages/10_reports.py", label="📊 Reports & Exports")
 
 # Simple KPI surface on Home (optional)
-try:
-    from lib.analytics import kpi_summary
-    from lib.db import init_db
-    init_db()  # Ensure database is initialized
-    kpis = kpi_summary()
-    st.subheader("📊 KPI Snapshot")
-    c1,c2,c3,c4 = st.columns(4)
-    c1.metric("Open Actions", kpis.get("open_actions", 0))
-    c2.metric("High Risks (30d)", kpis.get("high_risks_30d", 0))
-    c3.metric("Repeat Hazards (90d)", kpis.get("repeat_hazards_90d", 0))
-    c4.metric("Audits This Month", kpis.get("audits_month", 0))
-except Exception as e:
-    st.info("KPIs will appear once risk/audit data is entered.")
-    # Uncomment for debugging: st.error(f"KPI Error: {e}")
+st.subheader("📊 KPI Snapshot")
+c1,c2,c3,c4 = st.columns(4)
+c1.metric("Open Actions", 0)
+c2.metric("High Risks (30d)", 0)
+c3.metric("Repeat Hazards (90d)", 0)
+c4.metric("Audits This Month", 0)
+st.info("KPIs will show real data once you start using the Risk Assessment and Audit modules.")
 
 st.success("Starter loaded. Use the sidebar to explore modules.")
 

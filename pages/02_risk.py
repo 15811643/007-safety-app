@@ -1,7 +1,6 @@
 import streamlit as st
 from datetime import date
 from lib.db import init_db, save_risk, list_risks, add_action
-from lib.analytics import repeat_hazards
 
 st.set_page_config(page_title="Risk Assessment", layout="wide")
 init_db()
@@ -43,12 +42,7 @@ if submitted:
         add_action(source="Risk", source_id=rid, site=site, title=f"Mitigate: {hazard}", owner=responsible, due_date=due_date)
 
 st.subheader("🚨 Repeat Hazards (Auto-Flag)")
-flags = repeat_hazards()
-if flags:
-    st.warning("These hazards repeat at/within 90 days (threshold ≥3):")
-    st.dataframe(flags, use_container_width=True)
-else:
-    st.info("No repeat hazards flagged yet.")
+st.info("Repeat hazard detection will be available once you have risk data.")
 
 st.subheader("📊 Recent Risks")
 rows = list_risks(200)
