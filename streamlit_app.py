@@ -38,6 +38,8 @@ with st.sidebar:
 # Simple KPI surface on Home (optional)
 try:
     from lib.analytics import kpi_summary
+    from lib.db import init_db
+    init_db()  # Ensure database is initialized
     kpis = kpi_summary()
     st.subheader("📊 KPI Snapshot")
     c1,c2,c3,c4 = st.columns(4)
@@ -45,8 +47,9 @@ try:
     c2.metric("High Risks (30d)", kpis.get("high_risks_30d", 0))
     c3.metric("Repeat Hazards (90d)", kpis.get("repeat_hazards_90d", 0))
     c4.metric("Audits This Month", kpis.get("audits_month", 0))
-except Exception:
+except Exception as e:
     st.info("KPIs will appear once risk/audit data is entered.")
+    # Uncomment for debugging: st.error(f"KPI Error: {e}")
 
 st.success("Starter loaded. Use the sidebar to explore modules.")
 
