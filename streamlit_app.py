@@ -21,6 +21,8 @@ st.write(
 
 with st.sidebar:
     st.page_link("pages/01_previsit.py", label="🏗️ Workplace Pre-Visit")
+    st.page_link("pages/02_risk.py", label="🎯 Risk Assessment")
+    st.page_link("pages/03_audit.py", label="🔍 Safety Audit")
     st.page_link("pages/02_inspection.py", label="📋 Safety Inspection")
     st.page_link("pages/InspectionForm.py", label="📋 Safety Inspection Form")
     st.page_link("pages/PreVisit.py", label="🏗️ Pre-Visit Assessment")
@@ -33,7 +35,20 @@ with st.sidebar:
     st.page_link("pages/08_schedule.py", label="📅 Scheduling (P6-lite)")
     st.page_link("pages/10_reports.py", label="📊 Reports & Exports")
 
-st.success("Starter loaded. Head to 'Workplace Pre-Visit' to try the flow.")
+# Simple KPI surface on Home (optional)
+try:
+    from lib.analytics import kpi_summary
+    kpis = kpi_summary()
+    st.subheader("📊 KPI Snapshot")
+    c1,c2,c3,c4 = st.columns(4)
+    c1.metric("Open Actions", kpis.get("open_actions", 0))
+    c2.metric("High Risks (30d)", kpis.get("high_risks_30d", 0))
+    c3.metric("Repeat Hazards (90d)", kpis.get("repeat_hazards_90d", 0))
+    c4.metric("Audits This Month", kpis.get("audits_month", 0))
+except Exception:
+    st.info("KPIs will appear once risk/audit data is entered.")
+
+st.success("Starter loaded. Use the sidebar to explore modules.")
 
 # Test GPT integration
 if st.button("Test GPT Integration"):
