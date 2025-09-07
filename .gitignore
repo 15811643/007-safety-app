@@ -57,3 +57,5 @@ memory/
 data/
 reports/
 .streamlit/secrets.toml
+
+!.env.example
