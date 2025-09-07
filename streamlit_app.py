@@ -38,10 +38,42 @@ with st.sidebar:
 # Simple KPI surface on Home (optional)
 st.subheader("KPI Snapshot")
 c1, c2, c3, c4 = st.columns(4)
-c1.metric("Open Actions", 0)
-c2.metric("High Risks (30d)", 0)
-c3.metric("Repeat Hazards (90d)", 0)
-c4.metric("Audits This Month", 0)
+
+# Try to pull basic KPIs from the local SQLite DB
+open_actions = high_risks_30d = repeat_hazards_90d = audits_this_month = 0
+try:
+    from lib.db import list_actions, list_risks, list_audits
+    from datetime import datetime, timedelta
+
+    actions = list_actions(status="Open", limit=500)
+    open_actions = len(actions)
+
+    now = datetime.utcnow()
+    days30 = now - timedelta(days=30)
+    risks = list_risks(limit=500)
+    def parsed(dt: str):
+        try:
+            return datetime.fromisoformat(dt.replace("Z", "+00:00"))
+        except Exception:
+            return now
+    high_risks_30d = sum(1 for r in risks if r.rating >= 12 and parsed(getattr(r, 'created_at', now.isoformat())) >= days30)
+
+    days90 = now - timedelta(days=90)
+    # naive repeat hazard heuristic: same hazard text appears >= 2 times in last 90d
+    from collections import Counter
+    hz = [r.hazard for r in risks if parsed(getattr(r, 'created_at', now.isoformat())) >= days90]
+    repeat_hazards_90d = sum(1 for _, cnt in Counter(hz).items() if cnt >= 2)
+
+    audits = list_audits(limit=500)
+    this_month = now.strftime('%Y-%m')
+    audits_this_month = sum(1 for a in audits if getattr(a, 'date_iso', '').startswith(this_month))
+except Exception:
+    pass
+
+c1.metric("Open Actions", open_actions)
+c2.metric("High Risks (30d)", high_risks_30d)
+c3.metric("Repeat Hazards (90d)", repeat_hazards_90d)
+c4.metric("Audits This Month", audits_this_month)
 st.info(
     "KPIs will show real data once you start using the Risk Assessment and Audit modules."
 )
