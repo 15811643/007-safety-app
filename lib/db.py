@@ -1,5 +1,5 @@
 from typing import Optional, Iterable, List
-from sqlmodel import SQLModel, Field, create_engine, Session, select, col
+from sqlmodel import SQLModel, Field, create_engine, Session, select
 from datetime import date, datetime, timedelta
 import os
 
