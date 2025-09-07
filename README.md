@@ -1,72 +1,48 @@
-# Safety Management Applications
+# 007 Safety App
 
-This repository contains two complementary safety management applications:
+This repo contains:
+- A React + Vite frontend (web-based safety UI)
+- A Streamlit safety inspection app with optional LLM integrations
 
-## 🚀 React Safety Management App
+## Quick Start
 
-A comprehensive safety management application built with React and Vite.
+React (Vite):
+- `cd 007-safety-app`
+- `npm install`
+- `npm run dev`
 
-### Features
-- **Safety Dashboard** - Real-time KPI monitoring and analytics
-- **Incident Reporting** - Comprehensive incident tracking and management
-- **Compliance Training** - Interactive safety checklists and training modules
-- **Emergency Response** - Emergency alerts and contact management
-- **Real-time Monitoring** - Live safety data and predictive insights
-- **User Management** - Role-based access control and user profiles
+Streamlit:
+- `cd 007-safety-app`
+- `pip install -r requirements.txt`
+- Copy `.env.example` to `.env` and set keys
+- `streamlit run streamlit_app.py`
 
-### Quick Start
-```bash
-npm install
-npm run dev
-npm run build
-```
+## LLM Setup
 
-### Live Demo
-Visit: https://web-based-safety-app-tartan1000.vercel.app
+Both OpenAI and Perplexity Pro are supported via simple wrappers.
 
----
+Environment variables (in `.env`):
+- `OPENAI_API_KEY` (required for OpenAI)
+- `OPENAI_MODEL` (default: `gpt-4o-mini`)
+- `PPLX_API_KEY` (required for Perplexity Pro)
+- `PPLX_MODEL` (default: `llama-3.1-sonar-small-128k-online`)
 
-## 🤖 007 Safety Inspection Assistant
+Usage:
+- OpenAI: `lib/gpt_wrapper.py` exposes `ask_gpt(prompt)`
+- Perplexity: `lib/pplx_wrapper.py` exposes `ask_pplx(prompt)`
 
-**007** is an AI-powered Streamlit application for safety inspection analysis.
+The Streamlit home adds test buttons for both providers.
 
-### Features
-- Upload and analyze inspection CSVs
-- GPT-5 summaries of findings
-- Interactive dashboard with hazard trends
-- Memory archive and report viewer
+## Structure
 
-### Setup
-1. Clone the repo to `Desktop\msa`
-2. Run `setup\install.ps1` to install environment and dependencies
-3. Run `setup\start.ps1` to launch the app
+- `src/` React source
+- `pages/` Streamlit pages
+- `lib/` Shared Python utilities (DB, reports, scheduling, LLM wrappers)
+- `public/` Static assets (React)
 
-### Folders
-- `data/`: Uploaded files
-- `memory/`: AI summaries
-- `reports/`: Output reports
+## Notes
 
-### API Key
-Set your OpenAI key in the terminal:
-```powershell
-$env:OPENAI_API_KEY = "your-key-here"
-```
-Then run the app.
+- Node `>=18` required for the React app.
+- Python dependencies are listed in `requirements.txt`.
+- To export PDFs in Reports, install WeasyPrint locally or download HTML and print to PDF.
 
-### Deploy to Streamlit
-✅ Deploy to [https://share.streamlit.io](https://share.streamlit.io)
-- Use `app/app.py` as entrypoint
-- Add your `OPENAI_API_KEY` as secret
-
----
-
-## Recent Updates
-
-- Fixed Vercel deployment issues with Rollup dependencies
-- Added auto-login for immediate access to all features
-- Implemented comprehensive safety management modules
-- Added real-time monitoring and emergency response features
-- Updated build command to exclude optional dependencies
-- Merged Python Streamlit safety inspection app
-
-*Last updated: $(Get-Date)*

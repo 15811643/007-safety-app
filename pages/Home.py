@@ -1,8 +1,8 @@
 import streamlit as st
-import base64
 
 # Custom CSS for modern styling
-st.markdown("""
+st.markdown(
+    """
 <style>
     .main-header {
         background: linear-gradient(90deg, #1f4037 0%, #99f2c8 100%);
@@ -37,94 +37,125 @@ st.markdown("""
         font-weight: bold;
     }
 </style>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
 
 # Main header with gradient
-st.markdown("""
+st.markdown(
+    """
 <div class="main-header">
-    <h1>🛡️ 007 Safety Inspection Assistant</h1>
-    <p style="font-size: 1.2rem; margin-top: 0;">AI-Powered Safety Analysis & Compliance Management</p>
+    <h1>007 Safety Inspection Assistant</h1>
+    <p style="font-size: 1.2rem; margin-top: 0;">AI-Powered Safety Analysis &amp; Compliance Management</p>
+    
 </div>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
 
 # Key metrics row
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    st.markdown("""
+    st.markdown(
+        """
     <div class="metric-card">
         <h3>📊</h3>
         <h2>Analytics</h2>
         <p>Real-time Safety Insights</p>
     </div>
-    """, unsafe_allow_html=True)
+    """,
+        unsafe_allow_html=True,
+    )
 
 with col2:
-    st.markdown("""
+    st.markdown(
+        """
     <div class="metric-card">
         <h3>🤖</h3>
         <h2>AI Analysis</h2>
         <p>GPT-4 Powered Reports</p>
     </div>
-    """, unsafe_allow_html=True)
+    """,
+        unsafe_allow_html=True,
+    )
 
 with col3:
-    st.markdown("""
+    st.markdown(
+        """
     <div class="metric-card">
         <h3>📈</h3>
         <h2>Trends</h2>
         <p>Hazard Pattern Detection</p>
     </div>
-    """, unsafe_allow_html=True)
+    """,
+        unsafe_allow_html=True,
+    )
 
 with col4:
-    st.markdown("""
+    st.markdown(
+        """
     <div class="metric-card">
-        <h3>📋</h3>
+        <h3>✅</h3>
         <h2>Compliance</h2>
         <p>Regulatory Standards</p>
     </div>
-    """, unsafe_allow_html=True)
+    """,
+        unsafe_allow_html=True,
+    )
 
 # Features section
-st.markdown("## 🚀 Key Features")
+st.markdown("## Key Features")
 
 col1, col2 = st.columns(2)
 
 with col1:
-    st.markdown("""
+    st.markdown(
+        """
     <div class="feature-card">
-        <h3>📁 Smart File Upload</h3>
+        <h3>Smart File Upload</h3>
         <p>Upload inspection CSVs and get instant AI-powered analysis with hazard identification and risk assessment.</p>
     </div>
-    """, unsafe_allow_html=True)
-    
-    st.markdown("""
+    """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
     <div class="feature-card">
-        <h3>📊 Interactive Dashboard</h3>
+        <h3>Interactive Dashboard</h3>
         <p>Real-time safety metrics, trend analysis, and visual charts for comprehensive safety monitoring.</p>
     </div>
-    """, unsafe_allow_html=True)
+    """,
+        unsafe_allow_html=True,
+    )
 
 with col2:
-    st.markdown("""
+    st.markdown(
+        """
     <div class="feature-card">
-        <h3>🤖 AI-Powered Reports</h3>
+        <h3>AI-Powered Reports</h3>
         <p>Generate detailed safety reports with GPT-4 analysis, recommendations, and compliance insights.</p>
     </div>
-    """, unsafe_allow_html=True)
-    
-    st.markdown("""
+    """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        """
     <div class="feature-card">
-        <h3>💾 Memory Archive</h3>
+        <h3>Memory Archive</h3>
         <p>Store and retrieve historical safety data, AI summaries, and trend analysis for continuous improvement.</p>
     </div>
-    """, unsafe_allow_html=True)
+    """,
+        unsafe_allow_html=True,
+    )
 
 # Quick start section
-st.markdown("## ⚡ Quick Start")
+st.markdown("## Quick Start")
 
-st.markdown("""
+st.markdown(
+    """
 <div class="feature-card">
     <h3>Get Started in 3 Steps:</h3>
     <ol>
@@ -133,20 +164,26 @@ st.markdown("""
         <li><strong>Report:</strong> Generate comprehensive safety reports with actionable recommendations</li>
     </ol>
 </div>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
 
 # Call to action
 st.markdown("---")
 col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
-    if st.button("🚀 Start Safety Analysis", use_container_width=True):
+    if st.button("Start Safety Analysis", use_container_width=True):
         st.switch_page("pages/Upload.py")
 
 # Footer
 st.markdown("---")
-st.markdown("""
-<div style="text-align: center; color: #666; padding: 1rem;">
-    <p>🛡️ <strong>007 Safety Assistant</strong> - Your AI-powered safety sidekick</p>
-    <p>Built with Streamlit & OpenAI GPT-4</p>
+st.markdown(
+    """
+<div style=\"text-align: center; color: #666; padding: 1rem;\">
+    <p><strong>007 Safety Assistant</strong> - Your AI-powered safety sidekick</p>
+    <p>Built with Streamlit &amp; OpenAI GPT-4</p>
 </div>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
+

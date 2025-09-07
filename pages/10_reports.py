@@ -6,7 +6,7 @@ import os
 init_db()
 st.set_page_config(page_title="Reports & Exports", layout="wide")
 
-st.header("📊 Reports & Exports")
+st.header("Reports & Exports")
 
 rows = list_previsits(200)
 if not rows:
@@ -30,13 +30,23 @@ else:
 
     c1, c2 = st.columns(2)
     with c1:
-        st.download_button("Download HTML", data=html, file_name=f"previsit_{rec.id}.html", mime="text/html")
+        st.download_button(
+            "Download HTML", data=html, file_name=f"previsit_{rec.id}.html", mime="text/html"
+        )
     with c2:
         pdf_bytes = try_html_to_pdf_bytes(html)
         if pdf_bytes:
-            st.download_button("Download PDF", data=pdf_bytes, file_name=f"previsit_{rec.id}.pdf", mime="application/pdf")
+            st.download_button(
+                "Download PDF",
+                data=pdf_bytes,
+                file_name=f"previsit_{rec.id}.pdf",
+                mime="application/pdf",
+            )
         else:
-            st.warning("WeasyPrint not installed. Download HTML and **Print → Save as PDF**.")
+            st.warning(
+                "WeasyPrint not installed. Download HTML and Print -> Save as PDF."
+            )
 
     with st.expander("Preview"):
         st.components.v1.html(html, height=600, scrolling=True)
+

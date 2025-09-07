@@ -6,7 +6,7 @@ from lib.db import init_db, save_previsit, list_previsits
 st.set_page_config(page_title="Workplace Pre-Visit", layout="wide")
 init_db()
 
-st.header("🏗️ Workplace Pre-Visit")
+st.header("Workplace Pre-Visit")
 
 with st.form("previsit_form"):
     cols = st.columns(3)
@@ -45,16 +45,20 @@ if submitted:
 st.subheader("Recent Pre-Visits")
 rows = list_previsits(25)
 if rows:
-    st.dataframe([
-        {
-            "ID": r.id,
-            "Site": r.site,
-            "Date": r.date_iso,
-            "Crew": r.crew_size,
-            "Confined Space": "Yes" if r.confined_space else "No",
-            "Attendant": r.attendant or "-",
-        }
-        for r in rows
-    ], use_container_width=True)
+    st.dataframe(
+        [
+            {
+                "ID": r.id,
+                "Site": r.site,
+                "Date": r.date_iso,
+                "Crew": r.crew_size,
+                "Confined Space": "Yes" if r.confined_space else "No",
+                "Attendant": r.attendant or "-",
+            }
+            for r in rows
+        ],
+        use_container_width=True,
+    )
 else:
     st.info("No records yet. Create your first Pre-Visit above.")
+

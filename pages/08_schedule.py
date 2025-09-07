@@ -4,9 +4,12 @@ from lib.scheduling import compute_early
 
 st.set_page_config(page_title="Scheduling (P6-lite)", layout="wide")
 
-st.header("📅 Scheduling (P6-lite)")
+st.header("Scheduling (P6-lite)")
 
-st.write("Enter a few tasks with durations and predecessors (IDs). Example included.")
+st.write(
+    "Enter a few tasks with durations and predecessors (IDs). Example included."
+)
+
 
 def parse_csv(txt: str):
     # Expect CSV-like rows: id,name,dur,preds(space-separated)
@@ -23,13 +26,16 @@ def parse_csv(txt: str):
         tasks.append({"id": _id, "name": name, "dur": dur, "preds": preds})
     return tasks
 
-example = """
+
+example = (
+    """
 A, Mobilize, 2,
 B, Site Setup, 3, A
 C, Trenching, 5, B
 D, Inspection, 1, C
 E, Demobilize, 1, D
-""".strip()
+"""
+).strip()
 
 inp = st.text_area("Tasks (CSV)", height=180, value=example)
 
@@ -45,11 +51,14 @@ if st.button("Compute Schedule", type="primary"):
         # Build simple Gantt from ES/EF
         gantt_rows = []
         for t in tasks:
-            gantt_rows.append({
-                "Task": f"{t['id']} - {t['name']}",
-                "Start": t["ES"],
-                "Finish": t["EF"],
-            })
+            gantt_rows.append(
+                {
+                    "Task": f"{t['id']} - {t['name']}",
+                    "Start": t["ES"],
+                    "Finish": t["EF"],
+                }
+            )
         fig = px.timeline(gantt_rows, x_start="Start", x_end="Finish", y="Task")
         fig.update_yaxes(autorange="reversed")
         st.plotly_chart(fig, use_container_width=True)
+

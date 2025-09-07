@@ -4,7 +4,8 @@ import os
 from datetime import datetime
 
 # Custom CSS for modern styling
-st.markdown("""
+st.markdown(
+    """
 <style>
     .memory-header {
         background: linear-gradient(90deg, #11998e 0%, #38ef7d 100%);
@@ -31,18 +32,23 @@ st.markdown("""
         font-weight: bold;
     }
 </style>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
 
 # Memory header
-st.markdown("""
+st.markdown(
+    """
 <div class="memory-header">
-    <h1>💾 Safety Memory Archive</h1>
-    <p style="font-size: 1.1rem; margin-top: 0;">Historical Safety Data & AI Analysis</p>
+    <h1>Safety Memory Archive</h1>
+    <p style="font-size: 1.1rem; margin-top: 0;">Historical Safety Data &amp; AI Analysis</p>
 </div>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
 
 # Search and filter
-st.markdown("## 🔍 Search & Filter")
+st.markdown("## Search & Filter")
 
 col1, col2, col3 = st.columns(3)
 
@@ -53,10 +59,12 @@ with col2:
     date_filter = st.date_input("Filter by date:")
 
 with col3:
-    entry_type = st.selectbox("Entry type:", ["All", "Inspections", "Audits", "Pre-Visits", "Reports"])
+    entry_type = st.selectbox(
+        "Entry type:", ["All", "Inspections", "Audits", "Pre-Visits", "Reports"]
+    )
 
 # Memory entries display
-st.markdown("## 📚 Memory Entries")
+st.markdown("## Memory Entries")
 
 # Check for existing memory files
 memory_entries = []
@@ -65,17 +73,19 @@ memory_entries = []
 inspections_dir = "inspections"
 if os.path.exists(inspections_dir):
     for file in os.listdir(inspections_dir):
-        if file.endswith('.json'):
+        if file.endswith(".json"):
             try:
-                with open(os.path.join(inspections_dir, file), 'r') as f:
+                with open(os.path.join(inspections_dir, file), "r") as f:
                     data = json.load(f)
-                    memory_entries.append({
-                        'type': 'Inspection',
-                        'id': data.get('inspection_id', file),
-                        'date': data.get('date', ''),
-                        'title': f"Inspection: {file}",
-                        'content': str(data.get('sections', {}))
-                    })
+                    memory_entries.append(
+                        {
+                            "type": "Inspection",
+                            "id": data.get("inspection_id", file),
+                            "date": data.get("date", ""),
+                            "title": f"Inspection: {file}",
+                            "content": str(data.get("sections", {})),
+                        }
+                    )
             except:
                 pass
 
@@ -83,17 +93,21 @@ if os.path.exists(inspections_dir):
 audits_dir = "audits"
 if os.path.exists(audits_dir):
     for file in os.listdir(audits_dir):
-        if file.endswith('.json'):
+        if file.endswith(".json"):
             try:
-                with open(os.path.join(audits_dir, file), 'r') as f:
+                with open(os.path.join(audits_dir, file), "r") as f:
                     data = json.load(f)
-                    memory_entries.append({
-                        'type': 'Audit',
-                        'id': data.get('audit_id', file),
-                        'date': data.get('date', ''),
-                        'title': f"Audit: {data.get('data', {}).get('audit_info', {}).get('job_site', file)}",
-                        'content': str(data.get('data', {}).get('overall_assessment', {}))
-                    })
+                    memory_entries.append(
+                        {
+                            "type": "Audit",
+                            "id": data.get("audit_id", file),
+                            "date": data.get("date", ""),
+                            "title": f"Audit: {data.get('data', {}).get('audit_info', {}).get('job_site', file)}",
+                            "content": str(
+                                data.get("data", {}).get("overall_assessment", {})
+                            ),
+                        }
+                    )
             except:
                 pass
 
@@ -101,38 +115,46 @@ if os.path.exists(audits_dir):
 previsits_dir = "previsits"
 if os.path.exists(previsits_dir):
     for file in os.listdir(previsits_dir):
-        if file.endswith('.json'):
+        if file.endswith(".json"):
             try:
-                with open(os.path.join(previsits_dir, file), 'r') as f:
+                with open(os.path.join(previsits_dir, file), "r") as f:
                     data = json.load(f)
-                    memory_entries.append({
-                        'type': 'Pre-Visit',
-                        'id': data.get('previsit_id', file),
-                        'date': data.get('date', ''),
-                        'title': f"Pre-Visit: {data.get('data', {}).get('job_info', {}).get('job_number', file)}",
-                        'content': str(data.get('data', {}).get('job_info', {}))
-                    })
+                    memory_entries.append(
+                        {
+                            "type": "Pre-Visit",
+                            "id": data.get("previsit_id", file),
+                            "date": data.get("date", ""),
+                            "title": f"Pre-Visit: {data.get('data', {}).get('job_info', {}).get('job_number', file)}",
+                            "content": str(data.get("data", {}).get("job_info", {})),
+                        }
+                    )
             except:
                 pass
 
 # Filter entries
 if search_term:
-    memory_entries = [entry for entry in memory_entries if search_term.lower() in entry['title'].lower() or search_term.lower() in entry['content'].lower()]
+    memory_entries = [
+        entry
+        for entry in memory_entries
+        if search_term.lower() in entry["title"].lower()
+        or search_term.lower() in entry["content"].lower()
+    ]
 
 if entry_type != "All":
-    memory_entries = [entry for entry in memory_entries if entry['type'] == entry_type]
+    memory_entries = [entry for entry in memory_entries if entry["type"] == entry_type]
 
 # Sort by date
-memory_entries.sort(key=lambda x: x['date'], reverse=True)
+memory_entries.sort(key=lambda x: x["date"], reverse=True)
 
 # Display entries
 if memory_entries:
     st.success(f"Found {len(memory_entries)} memory entries")
-    
+
     for entry in memory_entries:
-        st.markdown(f"""
+        st.markdown(
+            f"""
         <div class="memory-card">
-            <h3>📋 {entry['title']}</h3>
+            <h3>{entry['title']}</h3>
             <p><strong>Type:</strong> {entry['type']}</p>
             <p><strong>ID:</strong> {entry['id']}</p>
             <p><strong>Date:</strong> {entry['date'][:10] if entry['date'] else 'Unknown'}</p>
@@ -141,99 +163,73 @@ if memory_entries:
                 <pre style="background: #f8f9fa; padding: 1rem; border-radius: 5px; overflow-x: auto;">{entry['content'][:500]}...</pre>
             </details>
         </div>
-        """, unsafe_allow_html=True)
+        """,
+            unsafe_allow_html=True,
+        )
 else:
-    st.info("No memory entries found. Complete some inspections, audits, or pre-visits to see them here!")
+    st.info(
+        "No memory entries found. Complete some inspections, audits, or pre-visits to see them here!"
+    )
 
 # Memory statistics
 st.markdown("---")
-st.markdown("## 📊 Memory Statistics")
+st.markdown("## Memory Statistics")
 
 if memory_entries:
     col1, col2, col3, col4 = st.columns(4)
-    
+
     with col1:
         total_entries = len(memory_entries)
         st.metric("Total Entries", total_entries)
-    
+
     with col2:
-        inspection_count = len([e for e in memory_entries if e['type'] == 'Inspection'])
+        inspection_count = len([e for e in memory_entries if e["type"] == "Inspection"])
         st.metric("Inspections", inspection_count)
-    
+
     with col3:
-        audit_count = len([e for e in memory_entries if e['type'] == 'Audit'])
+        audit_count = len([e for e in memory_entries if e["type"] == "Audit"])
         st.metric("Audits", audit_count)
-    
+
     with col4:
-        previsit_count = len([e for e in memory_entries if e['type'] == 'Pre-Visit'])
+        previsit_count = len([e for e in memory_entries if e["type"] == "Pre-Visit"])
         st.metric("Pre-Visits", previsit_count)
 
 # Export functionality
 st.markdown("---")
-st.markdown("## 📤 Export Memory")
+st.markdown("## Export Memory")
 
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    if st.button("📄 Export as JSON", use_container_width=True):
+    if st.button("Export as JSON", use_container_width=True):
         if memory_entries:
             export_data = {
                 "export_date": datetime.now().isoformat(),
                 "total_entries": len(memory_entries),
-                "entries": memory_entries
+                "entries": memory_entries,
             }
             st.download_button(
-                label="📥 Download JSON",
+                label="Download JSON",
                 data=json.dumps(export_data, indent=2),
                 file_name=f"memory_export_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json",
-                mime="application/json"
+                mime="application/json",
             )
         else:
             st.warning("No entries to export")
 
 with col2:
-    if st.button("📊 Export as CSV", use_container_width=True):
+    if st.button("Export as CSV", use_container_width=True):
         if memory_entries:
             import pandas as pd
+
             df = pd.DataFrame(memory_entries)
             csv = df.to_csv(index=False)
             st.download_button(
-                label="📥 Download CSV",
+                label="Download CSV",
                 data=csv,
                 file_name=f"memory_export_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
-                mime="text/csv"
+                mime="text/csv",
             )
         else:
             st.warning("No entries to export")
 
-with col3:
-    if st.button("🗑️ Clear Memory", use_container_width=True):
-        st.warning("This will clear all memory entries. Are you sure?")
-        if st.button("Yes, Clear All", key="confirm_clear"):
-            # This would clear the directories
-            st.success("Memory cleared!")
-
-# AI Analysis section
-st.markdown("---")
-st.markdown("## 🤖 AI Memory Analysis")
-
-if memory_entries:
-    if st.button("🧠 Analyze Memory Patterns", use_container_width=True):
-        with st.spinner("AI is analyzing memory patterns..."):
-            import time
-            time.sleep(2)
-            
-            st.markdown("### 🔍 AI Insights")
-            st.markdown("""
-            <div class="memory-card">
-                <h3>Pattern Analysis Results:</h3>
-                <ul>
-                    <li><strong>Most Active Period:</strong> Last 30 days (15 entries)</li>
-                    <li><strong>Common Issues:</strong> PPE compliance, equipment maintenance</li>
-                    <li><strong>Trend:</strong> Safety compliance improving by 12%</li>
-                    <li><strong>Recommendation:</strong> Focus on training programs</li>
-                </ul>
-            </div>
-            """, unsafe_allow_html=True)
-else:
-    st.info("Complete some inspections or audits to enable AI analysis")
