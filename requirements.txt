@@ -1,1 +1,6 @@
-﻿ -r 007-safety-app\requirements.txt 
+streamlit==1.38.0
+python-dotenv==1.0.1
+pandas==2.2.2
+numpy==1.26.4
+requests==2.32.3
+pillow==10.4.0
