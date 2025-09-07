@@ -1,6 +1,16 @@
 import os
+import sys
 import streamlit as st
 from dotenv import load_dotenv
+
+# Ensure imports work when launched from repo root (e.g., Streamlit Cloud)
+APP_DIR = os.path.dirname(__file__)
+if APP_DIR and APP_DIR not in sys.path:
+    sys.path.append(APP_DIR)
+try:
+    os.chdir(APP_DIR)
+except Exception:
+    pass
 
 st.set_page_config(page_title="007 Safety", layout="wide")
 load_dotenv()
