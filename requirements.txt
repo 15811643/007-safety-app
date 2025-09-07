@@ -1,9 +1,1 @@
-streamlit
-openai
-pandas
-matplotlib
-plotly
-python-dotenv
-sqlmodel>=0.0.22
-SQLAlchemy>=2.0
-pydantic>=2.4.2
+﻿ -r 007-safety-app\requirements.txt 
